@@ -1,0 +1,157 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery - Caden Ice</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      background-color: #0a0a0a; 
+      color: #f0e6e6; 
+      font-family: 'Roboto Mono', monospace; 
+    }
+    .purple-glow { text-shadow: 0 0 8px #a855f7; }
+    .canvas-overlay { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 0; }
+    .nav-link { 
+      position: relative; 
+      color: #f0e6e6; 
+      transition: color 0.3s ease; 
+    }
+    .nav-link:hover { color: #a855f7; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #a855f7;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .gallery-item { 
+      position: relative; 
+      overflow: hidden; 
+      border-radius: 8px; 
+      opacity: 0; 
+      transform: scale(0.9); 
+      transition: all 0.5s ease; 
+    }
+    .gallery-item img { 
+      transition: transform 0.5s ease; 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+    }
+    .gallery-item:hover img { transform: scale(1.1); }
+    .gallery-item .overlay { 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      bottom: 0; 
+      background: linear-gradient(180deg, rgba(168, 85, 247, 0.8), rgba(126, 34, 206, 0.8)); 
+      opacity: 0; 
+      transition: opacity 0.5s ease; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      text-align: center; 
+      padding: 1rem; 
+    }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .gallery-item.in-view { 
+      opacity: 1; 
+      transform: scale(1); 
+    }
+    @media (max-width: 768px) {
+      .grid-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .text-4xl { font-size: 1.875rem; }
+    }
+  </style>
+</head>
+<body class="relative">
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full bg-[#0a0a0a]/90 backdrop-blur-sm z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <div class="flex-shrink-0">
+          <a href="index.html" class="text-xl font-bold purple-glow">Caden Ice</a>
+        </div>
+        <div class="space-x-6">
+          <a href="index.html" class="nav-link text-lg">Home</a>
+          <a href="about.html" class="nav-link text-lg">About</a>
+          <a href="work.html" class="nav-link text-lg">Work</a>
+          <a href="gallery.html" class="nav-link text-lg">Gallery</a>
+          <a href="thoughts.html" class="nav-link text-lg">Thoughts</a>
+          <a href="books.html" class="nav-link text-lg">Books</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Three.js Canvas -->
+  <canvas id="mouse-effect" class="canvas-overlay"></canvas>
+
+  <!-- Gallery Page Content -->
+  <section class="min-h-screen py-20">
+    <div class="max-w-7xl mx-auto px-4">
+      <h1 class="text-4xl font-bold purple-glow mb-8 text-center">Gallery</h1>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="gallery-item">
+          <img src="https://via.placeholder.com/300" alt="Gallery Image" class="h-64">
+          <div class="overlay">
+            <p class="text-sm">[Image Description]</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
