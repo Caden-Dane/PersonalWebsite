@@ -86,11 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let textMesh = null;
     let fontLoaded = false;
 
-    // Dynamically load FontLoader
-    const fontLoaderScript = document.createElement('script');
-    fontLoaderScript.src = 'https://unpkg.com/three@0.134.0/examples/jsm/loaders/FontLoader.js';
-    fontLoaderScript.onload = () => {
-      console.log('FontLoader loaded');
+    // Check if FontLoader is available
+    if (typeof THREE.FontLoader !== 'undefined') {
+      console.log('FontLoader available');
       const fontLoader = new THREE.FontLoader();
       fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
         console.log('Font loaded successfully');
@@ -115,9 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
         scene.add(textMesh);
         console.log('Fallback sphere added to scene');
       });
-    };
-    fontLoaderScript.onerror = () => console.error('Failed to load FontLoader');
-    document.head.appendChild(fontLoaderScript);
+    } else {
+      console.error('FontLoader not available, using fallback geometry');
+      const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+      const material = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.8 });
+      textMesh = new THREE.Mesh(geometry, material);
+      scene.add(textMesh);
+      console.log('Fallback sphere added to scene');
+    }
 
     let targetX = 0, targetY = 0;
     let defaultX = 0, defaultY = 0;
