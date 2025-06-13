@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load font for text geometry
     const fontLoader = new THREE.FontLoader();
     fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-      const text = '@cadenice'; // Change to 'Hello World' or '@cadenice' as preferred
+      const text = '@icemanFPV - insta'; // Change to 'Hello World' or '@cadenice' as preferred
       const textGeometry = new THREE.TextGeometry(text, {
         font: font,
         size: 0.5,
