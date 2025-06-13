@@ -78,36 +78,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0); // Ensure transparent background
-    canvas.style.zIndex = 1; // Ensure canvas is above other content
-    document.body.appendChild(canvas); // Ensure canvas is in DOM if not already
+    renderer.setClearColor(0x000000, 0); // Transparent background
+    canvas.style.zIndex = 1; // Ensure canvas is visible
+    document.body.appendChild(canvas); // Ensure canvas is in DOM
     camera.position.z = 5;
 
     let textMesh = null;
-    const fontLoader = new THREE.FontLoader();
-    fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-      console.log('Font loaded successfully');
-      const text = '@cadenice';
-      const textGeometry = new THREE.TextGeometry(text, {
-        font: font,
-        size: 0.5,
-        height: 0.1,
-        curveSegments: 12,
+    let fontLoaded = false;
+
+    // Dynamically load FontLoader
+    const fontLoaderScript = document.createElement('script');
+    fontLoaderScript.src = 'https://unpkg.com/three@0.134.0/examples/jsm/loaders/FontLoader.js';
+    fontLoaderScript.onload = () => {
+      console.log('FontLoader loaded');
+      const fontLoader = new THREE.FontLoader();
+      fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
+        console.log('Font loaded successfully');
+        const text = '@cadenice';
+        const textGeometry = new THREE.TextGeometry(text, {
+          font: font,
+          size: 0.5,
+          height: 0.1,
+          curveSegments: 12,
+        });
+        const textMaterial = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.8 });
+        textMesh = new THREE.Mesh(textGeometry, textMaterial);
+        textGeometry.center();
+        scene.add(textMesh);
+        fontLoaded = true;
+        console.log('Text mesh added to scene');
+      }, undefined, (error) => {
+        console.error('Font loading failed, using fallback geometry:', error);
+        const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.8 });
+        textMesh = new THREE.Mesh(geometry, material);
+        scene.add(textMesh);
+        console.log('Fallback sphere added to scene');
       });
-      const textMaterial = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.8 });
-      textMesh = new THREE.Mesh(textGeometry, textMaterial);
-      textGeometry.center();
-      scene.add(textMesh);
-      console.log('Text mesh added to scene');
-    }, undefined, (error) => {
-      console.error('Font loading failed, using fallback geometry:', error);
-      // Fallback: Create a simple sphere
-      const geometry = new THREE.SphereGeometry(0.5, 32, 32);
-      const material = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.8 });
-      textMesh = new THREE.Mesh(geometry, material);
-      scene.add(textMesh);
-      console.log('Fallback sphere added to scene');
-    });
+    };
+    fontLoaderScript.onerror = () => console.error('Failed to load FontLoader');
+    document.head.appendChild(fontLoaderScript);
 
     let targetX = 0, targetY = 0;
     let defaultX = 0, defaultY = 0;
