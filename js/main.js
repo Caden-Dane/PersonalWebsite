@@ -73,16 +73,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // Three.js Text Effect
   const canvas = document.getElementById('mouse-effect');
   if (canvas && typeof THREE !== 'undefined') {
+    console.log('Three.js and canvas found, initializing');
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0); // Ensure transparent background
+    canvas.style.zIndex = 1; // Ensure canvas is above other content
+    document.body.appendChild(canvas); // Ensure canvas is in DOM if not already
     camera.position.z = 5;
 
-    // Load font for text geometry
+    let textMesh = null;
     const fontLoader = new THREE.FontLoader();
     fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
-      const text = '@icemanFPV - insta'; // Change to 'Hello World' or '@cadenice' as preferred
+      console.log('Font loaded successfully');
+      const text = '@cadenice';
       const textGeometry = new THREE.TextGeometry(text, {
         font: font,
         size: 0.5,
@@ -90,45 +95,53 @@ document.addEventListener('DOMContentLoaded', () => {
         curveSegments: 12,
       });
       const textMaterial = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.8 });
-      const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-      textGeometry.center(); // Center the text geometry
+      textMesh = new THREE.Mesh(textGeometry, textMaterial);
+      textGeometry.center();
       scene.add(textMesh);
+      console.log('Text mesh added to scene');
+    }, undefined, (error) => {
+      console.error('Font loading failed, using fallback geometry:', error);
+      // Fallback: Create a simple sphere
+      const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+      const material = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.8 });
+      textMesh = new THREE.Mesh(geometry, material);
+      scene.add(textMesh);
+      console.log('Fallback sphere added to scene');
+    });
 
-      let targetX = 0, targetY = 0;
-      let defaultX = 0, defaultY = 0;
-      const speed = 0.02;
-      let time = 0;
+    let targetX = 0, targetY = 0;
+    let defaultX = 0, defaultY = 0;
+    const speed = 0.02;
+    let time = 0;
 
-      document.addEventListener('mousemove', (e) => {
-        targetX = (e.clientX / window.innerWidth) * 10 - 5;
-        targetY = -(e.clientY / window.innerHeight) * 10 + 2.5;
-      });
+    document.addEventListener('mousemove', (e) => {
+      targetX = (e.clientX / window.innerWidth) * 10 - 5;
+      targetY = -(e.clientY / window.innerHeight) * 10 + 2.5;
+    });
 
-      document.addEventListener('touchmove', (e) => {
-        const touch = e.touches[0];
-        targetX = (touch.clientX / window.innerWidth) * 10 - 5;
-        targetY = -(touch.clientY / window.innerHeight) * 10 + 2.5;
-      }, { passive: true });
+    document.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      targetX = (touch.clientX / window.innerWidth) * 10 - 5;
+      targetY = -(touch.clientY / window.innerHeight) * 10 + 2.5;
+    }, { passive: true });
 
-      function animateText() {
-        requestAnimationFrame(animateText);
+    function animateText() {
+      requestAnimationFrame(animateText);
+      if (textMesh) {
         if (Math.abs(targetX - textMesh.position.x) > 0.1 || Math.abs(targetY - textMesh.position.y) > 0.1) {
           textMesh.position.x += (targetX - textMesh.position.x) * speed;
           textMesh.position.y += (targetY - textMesh.position.y) * speed;
         } else {
-          // Default motion when cursor is off-screen
           time += 0.02;
           defaultX = Math.sin(time) * 2;
           defaultY = Math.cos(time) * 2;
           textMesh.position.x += (defaultX - textMesh.position.x) * speed * 0.5;
           textMesh.position.y += (defaultY - textMesh.position.y) * speed * 0.5;
         }
-        renderer.render(scene, camera);
       }
-      animateText();
-    }, undefined, (error) => {
-      console.error('Font loading error:', error);
-    });
+      renderer.render(scene, camera);
+    }
+    animateText();
 
     // Resize Handler
     window.addEventListener('resize', () => {
