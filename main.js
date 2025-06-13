@@ -5,11 +5,42 @@ document.addEventListener('DOMContentLoaded', () => {
   if (intro && introText) {
     gsap.fromTo(introText, 
       { x: '-100%', opacity: 0 },
-      { x: '0%', opacity: 1, duration: 1.5, ease: 'power3.out', onComplete: () => {
-        gsap.to(introText, { x: '100%', opacity: 0, duration: 1.5, ease: 'power3.in', delay: 0.5 });
-        gsap.to(intro, { opacity: 0, duration: 0.5, delay: 2, onComplete: () => intro.remove() });
-      }}
+      { 
+        x: '0%', 
+        opacity: 1, 
+        duration: 1.5, 
+        ease: 'power3.out', 
+        onComplete: () => {
+          gsap.to(introText, { 
+            x: '100%', 
+            opacity: 0, 
+            duration: 1.5, 
+            ease: 'power3.in', 
+            delay: 0.5,
+            onComplete: () => {
+              gsap.to(intro, { 
+                opacity: 0, 
+                duration: 0.5, 
+                onComplete: () => {
+                  intro.style.display = 'none'; // Explicitly hide intro
+                  intro.remove(); // Remove from DOM
+                }
+              });
+            }
+          });
+        }
+      }
     );
+
+    // Fallback to ensure intro is removed after 4 seconds
+    setTimeout(() => {
+      if (intro && intro.parentNode) {
+        intro.style.display = 'none';
+        intro.remove();
+      }
+    }, 4000);
+  } else {
+    console.warn('Intro elements not found');
   }
 
   // Three.js Mouse Effect (Inspired by giustotech.web.app)
