@@ -255,7 +255,16 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollTrigger: { trigger: '.hero-section', start: 'top 80%' }
     });
 
-    const items = document.querySelectorAll('.timeline-item, .project-card, .post-card, .book-card, .gallery-item');
+    gsap.from('.project-card, .thought-preview', {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '.projects-section, .thoughts-section', start: 'top 80%' }
+    });
+
+    const items = document.querySelectorAll('.timeline-item, .project-card, .post-card, .book-card, .gallery-item, .thought-preview');
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
