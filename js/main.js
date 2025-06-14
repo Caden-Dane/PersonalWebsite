@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Intro elements found, starting animation');
     if (typeof gsap !== 'undefined') {
       try {
-        console.log('GSAP detected, initiating animation sequence');
         gsap.fromTo(introText, 
           { x: '-100%', opacity: 0 },
           { 
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     opacity: 0, 
                     duration: 0.5, 
                     onComplete: () => {
-                      console.log('Intro fade-out complete, removing');
+                      console.log('Intro faded out, removing');
                       intro.style.display = 'none';
                       intro.remove();
                     }
@@ -40,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         );
       } catch (e) {
-        console.error('GSAP animation error, forcing intro removal:', e);
+        console.error('GSAP animation error:', e);
         intro.style.display = 'none';
         intro.remove();
       }
@@ -60,10 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1500);
     }
 
-    // Fallback to ensure intro is removed after 4 seconds
     setTimeout(() => {
       if (intro && intro.parentNode) {
-        console.log('Timeout fallback triggered: removing intro');
+        console.log('Fallback triggered: removing intro');
         intro.style.display = 'none';
         intro.remove();
       }
@@ -79,18 +77,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-    console.log('Renderer created:', renderer.domElement);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0); // Transparent background
     canvas.style.zIndex = 1; // Ensure canvas is visible
-    canvas.style.position = 'fixed'; // Ensure proper positioning
-    canvas.style.top = '0';
-    canvas.style.left = '0';
     document.body.appendChild(canvas); // Ensure canvas is in DOM
     camera.position.z = 5;
 
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 500; // Reduced for simplicity
+    const particlesCount = 1500;
     const posArray = new Float32Array(particlesCount * 3);
     for (let i = 0; i < particlesCount * 3; i++) {
       posArray[i] = (Math.random() - 0.5) * 10;
@@ -98,13 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
     const material = new THREE.PointsMaterial({ 
       color: 0xa855f7, 
-      size: 0.05, 
+      size: 0.03, 
       transparent: true, 
-      opacity: 0.8
+      opacity: 0.8,
+      blending: THREE.AdditiveBlending
     });
     const particlesMesh = new THREE.Points(particlesGeometry, material);
     scene.add(particlesMesh);
-    console.log('Particles mesh added to scene');
 
     let mouseX = 0, mouseY = 0;
 
@@ -127,17 +121,16 @@ document.addEventListener('DOMContentLoaded', () => {
         positions[i + 1] += (mouseY * 5 - positions[i + 1]) * 0.02;
       }
       particlesGeometry.attributes.position.needsUpdate = true;
+      particlesMesh.rotation.y += 0.002;
       renderer.render(scene, camera);
     }
     animateParticles();
-    console.log('Animation loop started');
 
     // Resize Handler
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      console.log('Canvas resized');
     });
   } else {
     console.warn('Three.js or canvas not found:', { canvas: !!canvas, three: typeof THREE });
