@@ -117,14 +117,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let mouseX = 0, mouseY = 0;
 
     document.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth) * 4 - 2; // Increased sensitivity
-      mouseY = -(e.clientY / window.innerHeight) * 4 + 2;
+      // Map mouse to scene coordinates directly (0 to width/height, scaled to -5 to 5)
+      mouseX = ((e.clientX / window.innerWidth) * 10) - 5;
+      mouseY = -((e.clientY / window.innerHeight) * 10) + 5; // Invert y to match Three.js
     });
 
     document.addEventListener('touchmove', (e) => {
       const touch = e.touches[0];
-      mouseX = (touch.clientX / window.innerWidth) * 4 - 2;
-      mouseY = -(touch.clientY / window.innerHeight) * 4 + 2;
+      mouseX = ((touch.clientX / window.innerWidth) * 10) - 5;
+      mouseY = -((touch.clientY / window.innerHeight) * 10) + 5;
     }, { passive: true });
 
     function animateSpiral() {
@@ -136,10 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let i = 0; i < particlesCount; i++) {
         const angle = (i / particlesCount) * Math.PI * 10 + time; // Rotate over time
         const radius = (i / particlesCount * 3) + (Math.sin(time + i * 0.1) * 0.5); // Pulsing radius
-        const centerX = mouseX; // Direct mouse offset
-        const centerY = mouseY;
-        positions[i * 3] = radius * Math.cos(angle) + centerX; // Tighter follow
-        positions[i * 3 + 1] = radius * Math.sin(angle) + centerY;
+        positions[i * 3] = radius * Math.cos(angle) + mouseX; // Direct mouse position
+        positions[i * 3 + 1] = radius * Math.sin(angle) + mouseY;
         positions[i * 3 + 2] = (Math.random() - 0.5) * 2; // Slight random depth
         sizes[i] = 1 + Math.sin(time + i * 0.1) * 0.3; // Pulsing size
       }
