@@ -81,6 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0); // Transparent background
+    canvas.style.background = 'transparent'; // Ensure canvas background is transparent
+    canvas.style.display = 'block'; // Ensure no default inline-block space
     canvas.style.zIndex = 1; // Ensure canvas is visible
     document.body.appendChild(canvas); // Ensure canvas is in DOM
     camera.position.z = 5;
@@ -216,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
       clickParticlesGeometry.attributes.position.needsUpdate = true;
       clickParticlesGeometry.attributes.size.needsUpdate = true;
       clickParticlesGeometry.attributes.opacity.needsUpdate = true;
-      clickMaterial.opacity = 0.8; // Ensure material opacity is applied
+      clickMaterial.opacity = 0.8;
 
       renderer.render(scene, camera);
     }
