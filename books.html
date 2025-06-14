@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caden Ice - Books</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <style>
+        :root {
+            --bg-start: #1a0a3a;
+            --bg-end: #0a2a1a;
+            --text-color: #ffffff;
+        }
+        .light-mode {
+            --bg-start: #e0e0e0;
+            --bg-end: #d0d0d0;
+            --text-color: #0a0a0a;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .background-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--bg-start), var(--bg-end));
+            z-index: -2;
+            transition: opacity 0.8s ease;
+            opacity: 0.7;
+        }
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+        }
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ffcc;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            z-index: 9999;
+            mix-blend-mode: difference;
+        }
+        .custom-cursor.trail {
+            background: radial-gradient(circle, rgba(0, 255, 204, 0.3) 0%, transparent 70%);
+            border: none;
+            width: 30px;
+            height: 30px;
+        }
+        .section {
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-text {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            position: relative;
+        }
+        .hero-text span {
+            display: inline-block;
+        }
+        .hero-subtext {
+            font-size: 1.2rem;
+            max-width: 90%;
+            margin-top: 1rem;
+            opacity: 0.8;
+        }
+        .book-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            text-align: left;
+        }
+        .book-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 255, 204, 0.2), rgba(255, 0, 204, 0.2));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .book-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-start);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: right 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 1000;
+        }
+        .nav-menu a {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            color: var(--text-color);
+            text-decoration: none;
+            opacity: 0;
+            transform: rotateY(90deg);
+        }
+        .menu-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .menu-toggle svg {
+            width: 100%;
+            height: 100%;
+        }
+        .menu-toggle path {
+            fill: none;
+            stroke: #00ffcc;
+            stroke-width: 4;
+            stroke-linecap: round;
+        }
+        .squiggly-underline {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 4px;
+            background: linear-gradient(to right, #00ffcc, #ff00cc);
+            opacity: 0;
+            z-index: 999;
+        }
+        .nav-menu.open .squiggly-underline {
+            width: 80%;
+            opacity: 1;
+        }
+        .mode-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            background: rgba(0, 255, 204, 0.2);
+        }
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            color: #00ffcc;
+            transform: translateX(-2px);
+            animation: glitch-left 2s infinite;
+        }
+        .glitch::after {
+            color: #ff00cc;
+            transform: translateX(2px);
+            animation: glitch-right 2s infinite;
+        }
+        @keyframes glitch-left {
+            0% { transform: translateX(-2px); opacity: 0.8; }
+            50% { transform: translateX(2px); opacity: 0.4; }
+            100% { transform: translateX(-2px); opacity: 0.8; }
+        }
+        @keyframes glitch-right {
+            0% { transform: translateX(2px); opacity: 0.8; }
+            50% { transform: translateX(-2px); opacity: 0.4; }
+            100% { transform: translateX(2px); opacity: 0.8; }
+        }
+        @media (max-width: 768px) {
+            .hero-text {
+                font-size: 2.5rem;
+            }
+            .hero-subtext {
+                font-size: 1rem;
+            }
+            .nav-menu a {
+                font-size: 1.5rem;
+            }
+            .book-card {
+                width: 100%;
+            }
+            .custom-cursor {
+                display: none;
+            }
+            .menu-toggle {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="three-canvas"></canvas>
+    <div class="background-layer"></div>
+    <div class="custom-cursor"></div>
+    <div class="mode-toggle">Dark Mode</div>
+    <div class="menu-toggle">
+        <svg viewBox="0 0 100 100">
+            <path class="squiggly-path" d="M10,50 Q30,30 50,50 T90,50"/>
+        </svg>
+    </div>
+    <nav class="nav-menu">
+        <div class="squiggly-underline"></div>
+        <a href="index.html#home">Home</a>
+        <a href="about.html">About</a>
+        <a href="thoughts.html">Thoughts</a>
+        <a href="books.html">Books</a>
+        <a href="projects.html">Projects</a>
+    </nav>
+
+    <section id="books" class="section" data-bg-start="#1a0a3a" data-bg-end="#0a2a1a">
+        <h1 class="hero-text glitch" data-text="Books">Books</h1>
+        <p class="hero-subtext">A collection of books that inspire creativity and innovation.</p>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 w-[90%] max-w-[1200px] mt-4">
+            <div class="book-card min-h-fit">
+                <div class="book-overlay"></div>
+                <img src="https://source.unsplash.com/200x300/?book,sci-fi" alt="Dune Book Cover" class="book-image">
+                <h3 class="text-xl font-bold mt-2">Dune</h3>
+                <p class="text-base opacity-80 mt-1">Frank Herbert</p>
+                <p class="text-base mt-2">
+                    A sci-fi epic exploring politics, ecology, and human potential on the desert planet Arrakis. Its intricate world-building and philosophical depth make it a timeless classic.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Initialize GSAP and Plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Detect Mobile
+        const isMobile = window.innerWidth <= 768;
+
+        // Three.js Wireframe Wave Plane (Disabled on Mobile)
+        if (!isMobile) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            const geometry = new THREE.PlaneGeometry(100, 100, 20, 20);
+            const material = new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.3,
+                side: THREE.DoubleSide
+            });
+            const plane = new THREE.Mesh(geometry, material);
+            scene.add(plane);
+            plane.rotation.x = Math.PI / 4;
+            camera.position.z = 50;
+
+            let scrollY = 0;
+            ScrollTrigger.create({
+                trigger: '.section',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1,
+                onUpdate: (self) => {
+                    scrollY = self.progress;
+                }
+            });
+
+            const animate = (time) => {
+                requestAnimationFrame(animate);
+                const positions = geometry.attributes.position.array;
+                for (let i = 0; i < positions.length; i += 3) {
+                    const x = positions[i];
+                    const y = positions[i + 1];
+                    positions[i + 2] = Math.sin(x * 0.1 + time * 0.001) * Math.cos(y * 0.1 + time * 0.001) * 5 + scrollY * 2;
+                }
+                geometry.attributes.position.needsUpdate = true;
+                renderer.render(scene, camera);
+            };
+            animate(0);
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Custom Cursor (Disabled on Mobile)
+        if (!isMobile) {
+            const cursor = document.querySelector('.custom-cursor');
+            let trailTimeout;
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.2,
+                    ease: 'power4.out'
+                });
+                cursor.classList.add('trail');
+                clearTimeout(trailTimeout);
+                trailTimeout = setTimeout(() => cursor.classList.remove('trail'), 200);
+            });
+            document.querySelectorAll('.book-card, a, .menu-toggle, .mode-toggle').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    gsap.to(cursor, {
+                        scale: 1.5,
+                        background: 'radial-gradient(circle, rgba(255, 0, 204, 0.5) 0%, transparent 70%)',
+                        border: 'none',
+                        duration: 0.3
+                    });
+                });
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(cursor, {
+                        scale: 1,
+                        background: 'none',
+                        border: '2px solid #00ffcc',
+                        duration: 0.3
+                    });
+                });
+            });
+        }
+
+        // Dark/Light Mode Toggle
+        const modeToggle = document.querySelector('.mode-toggle');
+        modeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            document.querySelector('.menu-toggle path').style.stroke = document.body.classList.contains('light-mode') ? '#0a0a0a' : '#00ffcc';
+            modeToggle.textContent = document.body.classList.contains('light-mode') ? 'Light Mode' : 'Dark Mode';
+        });
+
+        // Menu Animation with Squiggly Line
+        const menuToggle = document.querySelector('.menu-toggle');
+        const squigglyPath = document.querySelector('.squiggly-path');
+        const navMenu = document.querySelector('.nav-menu');
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        const squigglyUnderline = document.querySelector('.squiggly-underline');
+        menuToggle.addEventListener('click', () => {
+            const isOpen = navMenu.classList.toggle('open');
+            gsap.to(navMenu, {
+                right: isOpen ? '0' : '-100%',
+                duration: 0.8,
+                ease: 'power4.inOut'
+            });
+            gsap.to(squigglyPath, {
+                attr: {
+                    d: isOpen ? 'M10,50 L90,50' : 'M10,50 Q30,30 50,50 T90,50'
+                },
+                duration: 0.6,
+                ease: 'power4.inOut'
+            });
+            gsap.to(squigglyUnderline, {
+                width: isOpen ? '80%' : '0',
+                opacity: isOpen ? 1 : 0,
+                duration: 0.8,
+                ease: 'power4.inOut',
+                delay: isOpen ? 0.3 : 0
+            });
+            gsap.to(navLinks, {
+                opacity: isOpen ? 1 : 0,
+                rotateY: isOpen ? 0 : 90,
+                y: isOpen ? 0 : 20,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: 'power4.out',
+                delay: isOpen ? 0.3 : 0
+            });
+        });
+
+        // Hero Section Animations
+        const heroText = document.querySelector('.hero-text');
+        const heroTextSpans = heroText.querySelectorAll('span');
+        gsap.from(heroTextSpans, {
+            opacity: 0,
+            y: 100,
+            skewY: 10,
+            duration: 1.5,
+            stagger: 0.05,
+            ease: 'power4.out',
+            delay: 0.5
+        });
+        gsap.from('.hero-subtext', {
+            opacity: 0,
+            y: 50,
+            scale: 0.95,
+            duration: 1.2,
+            ease: 'power4.out',
+            delay: 1
+        });
+
+        // Book Card Animations
+        document.querySelectorAll('.book-card').forEach(card => {
+            gsap.from(card, {
+                opacity: 0,
+                scale: 0.8,
+                rotateY: 15,
+                duration: 1.5,
+                ease: 'power4.out',
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 90%',
+                    toggleActions: 'play none none none'
+                }
+            });
+            if (!isMobile) {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {
+                        scale: 1.05,
+                        rotateY: 5,
+                        boxShadow: '0 0 30px rgba(0, 255, 204, 0.5)',
+                        duration: 0.5,
+                        ease: 'power4.out'
+                    });
+                    gsap.to(card.querySelector('.book-overlay'), {
+                        opacity: 1,
+                        duration: 0.4,
+                        ease: 'power4.in'
+                    });
+                });
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        scale: 1,
+                        rotateY: 0,
+                        boxShadow: '0 0 20px rgba(0, 255, 204, 0.2)',
+                        duration: 0.5,
+                        ease: 'power4.out'
+                    });
+                    gsap.to(card.querySelector('.book-overlay'), {
+                        opacity: 0,
+                        duration: 0.4,
+                        ease: 'power4.out'
+                    });
+                });
+            } else {
+                card.addEventListener('touchstart', () => {
+                    gsap.to(card, {
+                        scale: 1.05,
+                        duration: 0.3,
+                        ease: 'power4.out'
+                    });
+                });
+                card.addEventListener('touchend', () => {
+                    gsap.to(card, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: 'power4.out'
+                    });
+                });
+            }
+        });
+
+        // Color Transitions
+        const bgLayer = document.querySelector('.background-layer');
+        const colors = [
+            { start: '#1a0a3a', end: '#0a2a1a' } // Books
+        ];
+        gsap.set(bgLayer, {
+            background: `linear-gradient(to bottom, ${colors[0].start}, ${colors[0].end})`
+        });
+        gsap.to(bgLayer, {
+            opacity: 0.7,
+            duration: 1,
+            ease: 'power4.inOut',
+            scrollTrigger: {
+                trigger: '.section',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 2
+            }
+        });
+    </script>
+</body>
+</html>
