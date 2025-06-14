@@ -100,7 +100,7 @@
             background: linear-gradient(45deg, rgba(0, 255, 204, 0.1), rgba(255, 0, 204, 0.1));
             z-index: -1;
         }
-        .project-card {
+        .experience-card {
             position: relative;
             overflow: hidden;
             border-radius: 10px;
@@ -108,23 +108,17 @@
             width: 90%;
             max-width: 500px;
             box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            text-align: left;
         }
-        .project-card video {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: cover;
-        }
-        .project-overlay {
+        .experience-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: linear-gradient(to top, rgba(0, 255, 204, 0.2), rgba(255, 0, 204, 0.2));
             opacity: 0;
             transition: opacity 0.5s ease;
         }
@@ -200,6 +194,21 @@
             border-radius: 999px;
             background: rgba(0, 255, 204, 0.2);
         }
+        .clipboard-button {
+            font-size: 1.125rem;
+            padding: 0.5rem 1rem;
+            margin-top: 1rem;
+            background: linear-gradient(to right, #00ffcc, #ff00cc);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .clipboard-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+        }
         .glitch::before,
         .glitch::after {
             content: attr(data-text);
@@ -239,7 +248,7 @@
             .nav-menu a {
                 font-size: 1.5rem;
             }
-            .project-card {
+            .experience-card {
                 width: 100%;
                 max-width: 100%;
             }
@@ -265,36 +274,28 @@
     </div>
     <nav class="nav-menu">
         <div class="squiggly-underline"></div>
-        <a href="#home">Home</a>
+        <a href="index.html#home">Home</a>
         <a href="about.html">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
+        <a href="thoughts.html">Thoughts</a>
+        <a href="books.html">Books</a>
+        <a href="projects.html">Projects</a>
     </nav>
 
     <section id="home" class="section" data-bg-start="#0a0a0a" data-bg-end="#1a2a3a">
         <div class="hero-overlay"></div>
         <h1 class="hero-text glitch" data-text="Caden Ice">Caden Ice</h1>
-        <p class="hero-subtext">Ambitious student of learning. Ready to catalyze change.</p>
+        <p class="hero-subtext">Creative Developer crafting immersive, animation-driven digital experiences.</p>
     </section>
 
-    <section id="projects" class="section" data-bg-start="#1a2a3a" data-bg-end="#3a1a2a">
+    <section id="work-experience" class="section" data-bg-start="#1a2a3a" data-bg-end="#3a1a2a">
         <h2 class="text-3xl font-bold mb-4">Work Experience</h2>
         <div class="grid grid-cols-1 gap-4">
-            <div class="project-card">
-                <video muted loop>
-                    <source src="https://wodniack.dev/static/works/artisan-ld.mp4" type="video/mp4">
-                </video>
-                <div class="project-overlay">
-                    <h3 class="text-xl font-bold">Project 1</h3>
-                </div>
-            </div>
-            <div class="project-card">
-                <video muted loop>
-                    <source src="https://wodniack.dev/static/works/deside-ld.mp4" type="video/mp4">
-                </video>
-                <div class="project-overlay">
-                    <h3 class="text-xl font-bold">Project 2</h3>
-                </div>
+            <div class="experience-card">
+                <div class="experience-overlay"></div>
+                <h3 class="text-xl font-bold">Software Development Intern</h3>
+                <h4 class="text-lg font-semibold">Zeal IT Consultants</h4>
+                <p class="text-base opacity-80">May 16, 2025 - Present</p>
+                <p class="text-base mt-2">Contributed to software development projects, including coding, debugging, and collaborating with senior developers to deliver high-quality solutions.</p>
             </div>
         </div>
     </section>
@@ -302,12 +303,23 @@
     <section id="contact" class="section" data-bg-start="#3a1a2a" data-bg-end="#0a0a0a">
         <h2 class="text-3xl font-bold mb-4">Get in Touch</h2>
         <p class="text-base max-w-[90%]">
-            Ready to create something extraordinary? I'm excited to see how my skills can offer you value.
+            Ready to create something extraordinary? Copy my email to connect!
         </p>
-        <a href="mailto:your.email@example.com" class="text-lg underline mt-4 hover:text-[#00ffcc]">Hire Me</a>
+        <button class="clipboard-button" onclick="copyEmail()">Copy Email</button>
     </section>
 
     <script>
+        // Copy Email to Clipboard
+        function copyEmail() {
+            navigator.clipboard.writeText('cadendane@gmail.com').then(() => {
+                const button = document.querySelector('.clipboard-button');
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                gsap.to(button, { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1 });
+                setTimeout(() => button.textContent = originalText, 2000);
+            }).catch(err => console.error('Failed to copy email:', err));
+        }
+
         // Initialize GSAP and Plugins
         gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -329,9 +341,9 @@
                 positions[i * 3] = (Math.random() - 0.5) * 100;
                 positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
                 positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
-                colors[i * 3] = 0.0; // Cyan R
-                colors[i * 3 + 1] = Math.random(); // Cyan G
-                colors[i * 3 + 2] = Math.random(); // Cyan B
+                colors[i * 3] = 0.0;
+                colors[i * 3 + 1] = Math.random();
+                colors[i * 3 + 2] = Math.random();
             }
             const geometry = new THREE.BufferGeometry();
             geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -385,7 +397,7 @@
                 clearTimeout(trailTimeout);
                 trailTimeout = setTimeout(() => cursor.classList.remove('trail'), 200);
             });
-            document.querySelectorAll('.project-card, a, .menu-toggle, .mode-toggle').forEach(el => {
+            document.querySelectorAll('.experience-card, a, .menu-toggle, .mode-toggle, .clipboard-button').forEach(el => {
                 el.addEventListener('mouseenter', () => {
                     gsap.to(cursor, {
                         scale: 1.5,
@@ -515,7 +527,7 @@
         const bgLayer = document.querySelector('.background-layer');
         const colors = [
             { start: '#0a0a0a', end: '#1a2a3a' }, // Home
-            { start: '#1a2a3a', end: '#3a1a2a' }, // Projects
+            { start: '#1a2a3a', end: '#3a1a2a' }, // Work Experience
             { start: '#3a1a2a', end: '#0a0a0a' }  // Contact
         ];
 
@@ -583,9 +595,8 @@
             });
         });
 
-        // Project Card Animations
-        document.querySelectorAll('.project-card').forEach(card => {
-            const video = card.querySelector('video');
+        // Experience Card Animations
+        document.querySelectorAll('.experience-card').forEach(card => {
             gsap.from(card, {
                 opacity: 0,
                 scale: 0.8,
@@ -600,7 +611,6 @@
             });
             if (!isMobile) {
                 card.addEventListener('mouseenter', () => {
-                    video.play();
                     gsap.to(card, {
                         scale: 1.05,
                         rotateY: 5,
@@ -608,14 +618,13 @@
                         duration: 0.5,
                         ease: 'power4.out'
                     });
-                    gsap.to(card.querySelector('.project-overlay'), {
+                    gsap.to(card.querySelector('.experience-overlay'), {
                         opacity: 1,
                         duration: 0.4,
                         ease: 'power4.in'
                     });
                 });
                 card.addEventListener('mouseleave', () => {
-                    video.pause();
                     gsap.to(card, {
                         scale: 1,
                         rotateY: 0,
@@ -623,15 +632,27 @@
                         duration: 0.5,
                         ease: 'power4.out'
                     });
-                    gsap.to(card.querySelector('.project-overlay'), {
+                    gsap.to(card.querySelector('.experience-overlay'), {
                         opacity: 0,
                         duration: 0.4,
                         ease: 'power4.out'
                     });
                 });
             } else {
-                video.addEventListener('touchstart', () => video.play());
-                video.addEventListener('touchend', () => video.pause());
+                card.addEventListener('touchstart', () => {
+                    gsap.to(card, {
+                        scale: 1.05,
+                        duration: 0.3,
+                        ease: 'power4.out'
+                    });
+                });
+                card.addEventListener('touchend', () => {
+                    gsap.to(card, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: 'power4.out'
+                    });
+                });
             }
         });
 
