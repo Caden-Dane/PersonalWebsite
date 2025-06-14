@@ -79,37 +79,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+    console.log('Renderer created:', renderer.domElement);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0); // Transparent background
     canvas.style.zIndex = 1; // Ensure canvas is visible
+    canvas.style.position = 'fixed'; // Ensure proper positioning
+    canvas.style.top = '0';
+    canvas.style.left = '0';
     document.body.appendChild(canvas); // Ensure canvas is in DOM
     camera.position.z = 5;
 
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1500;
+    const particlesCount = 500; // Reduced for simplicity
     const posArray = new Float32Array(particlesCount * 3);
-    const velocities = new Float32Array(particlesCount * 3);
-    for (let i = 0; i < particlesCount * 3; i += 3) {
+    for (let i = 0; i < particlesCount * 3; i++) {
       posArray[i] = (Math.random() - 0.5) * 10;
-      posArray[i + 1] = (Math.random() - 0.5) * 10;
-      posArray[i + 2] = (Math.random() - 0.5) * 10;
-      velocities[i] = (Math.random() - 0.5) * 0.02;
-      velocities[i + 1] = (Math.random() - 0.5) * 0.02;
-      velocities[i + 2] = (Math.random() - 0.5) * 0.02;
     }
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
     const material = new THREE.PointsMaterial({ 
       color: 0xa855f7, 
-      size: 0.03, 
+      size: 0.05, 
       transparent: true, 
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending
+      opacity: 0.8
     });
     const particlesMesh = new THREE.Points(particlesGeometry, material);
     scene.add(particlesMesh);
+    console.log('Particles mesh added to scene');
 
     let mouseX = 0, mouseY = 0;
-    let time = 0;
 
     document.addEventListener('mousemove', (e) => {
       mouseX = (e.clientX / window.innerWidth) * 2 - 1;
@@ -126,37 +123,57 @@ document.addEventListener('DOMContentLoaded', () => {
       requestAnimationFrame(animateParticles);
       const positions = particlesGeometry.attributes.position.array;
       for (let i = 0; i < particlesCount * 3; i += 3) {
-        positions[i] += velocities[i] + (mouseX * 5 - positions[i]) * 0.02;
-        positions[i + 1] += velocities[i + 1] + (mouseY * 5 - positions[i + 1]) * 0.02;
-        positions[i + 2] += velocities[i + 2];
-        if (Math.abs(positions[i]) > 5) velocities[i] *= -0.5;
-        if (Math.abs(positions[i + 1]) > 5) velocities[i + 1] *= -0.5;
-        if (Math.abs(positions[i + 2]) > 5) velocities[i + 2] *= -0.5;
-      }
-      if (mouseX === 0 && mouseY === 0) {
-        time += 0.02;
-        const centerX = Math.sin(time) * 2;
-        const centerY = Math.cos(time) * 2;
-        for (let i = 0; i < particlesCount * 3; i += 3) {
-          positions[i] += (centerX - positions[i]) * 0.01;
-          positions[i + 1] += (centerY - positions[i + 1]) * 0.01;
-        }
+        positions[i] += (mouseX * 5 - positions[i]) * 0.02;
+        positions[i + 1] += (mouseY * 5 - positions[i + 1]) * 0.02;
       }
       particlesGeometry.attributes.position.needsUpdate = true;
-      particlesMesh.rotation.y += 0.002;
       renderer.render(scene, camera);
     }
     animateParticles();
+    console.log('Animation loop started');
 
     // Resize Handler
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+      console.log('Canvas resized');
     });
   } else {
     console.warn('Three.js or canvas not found:', { canvas: !!canvas, three: typeof THREE });
   }
 
   // Scroll Animations
-  if (typeof
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    console.log('Initializing scroll animations');
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.from('.hero-text', {
+      y: 20,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '.hero-section', start: 'top 80%' }
+    });
+
+    gsap.from('.hero-image', {
+      scale: 0.8,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: '.hero-section', start: 'top 80%' }
+    });
+
+    const items = document.querySelectorAll('.timeline-item, .project-card, .post-card, .book-card, .gallery-item');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.2 });
+    items.forEach(item => observer.observe(item));
+  } else {
+    console.warn('GSAP or ScrollTrigger not loaded, skipping scroll animations');
+  }
+});
