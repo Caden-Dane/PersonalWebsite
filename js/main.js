@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('Intro elements not found:', { intro: !!intro, introText: !!introText });
   }
 
-  // Three.js Particle Effect
+  // Three.js Spiral Particle Effect
   const canvas = document.getElementById('mouse-effect');
   if (canvas && typeof THREE !== 'undefined') {
     console.log('Three.js and canvas found, initializing');
@@ -84,15 +84,27 @@ document.addEventListener('DOMContentLoaded', () => {
     camera.position.z = 5;
 
     const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 1500;
+    const particlesCount = 1000; // Adjusted for a tighter spiral
     const posArray = new Float32Array(particlesCount * 3);
-    for (let i = 0; i < particlesCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 10;
+    const scaleArray = new Float32Array(particlesCount); // For pulsing effect
+    let time = 0;
+
+    for (let i = 0; i < particlesCount; i++) {
+      const angle = (i / particlesCount) * Math.PI * 10; // Spiral angle
+      const radius = i / particlesCount * 3; // Spiral radius increases with particle index
+      const x = radius * Math.cos(angle);
+      const y = radius * Math.sin(angle);
+      const z = (Math.random() - 0.5) * 2; // Slight random depth
+      posArray[i * 3] = x;
+      posArray[i * 3 + 1] = y;
+      posArray[i * 3 + 2] = z;
+      scaleArray[i] = 1.0; // Initial scale for pulsing
     }
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    particlesGeometry.setAttribute('size', new THREE.BufferAttribute(scaleArray, 1));
     const material = new THREE.PointsMaterial({ 
       color: 0xa855f7, 
-      size: 0.03, 
+      size: 0.05, 
       transparent: true, 
       opacity: 0.8,
       blending: THREE.AdditiveBlending
@@ -113,18 +125,26 @@ document.addEventListener('DOMContentLoaded', () => {
       mouseY = -(touch.clientY / window.innerHeight) * 2 + 1;
     }, { passive: true });
 
-    function animateParticles() {
-      requestAnimationFrame(animateParticles);
+    function animateSpiral() {
+      requestAnimationFrame(animateSpiral);
       const positions = particlesGeometry.attributes.position.array;
-      for (let i = 0; i < particlesCount * 3; i += 3) {
-        positions[i] += (mouseX * 5 - positions[i]) * 0.02;
-        positions[i + 1] += (mouseY * 5 - positions[i + 1]) * 0.02;
+      const sizes = particlesGeometry.attributes.size.array;
+      time += 0.02;
+
+      for (let i = 0; i < particlesCount; i++) {
+        const angle = (i / particlesCount) * Math.PI * 10 + time; // Rotate over time
+        const radius = (i / particlesCount * 3) + (Math.sin(time + i * 0.1) * 0.5); // Pulsing radius
+        positions[i * 3] = radius * Math.cos(angle) + mouseX * 5;
+        positions[i * 3 + 1] = radius * Math.sin(angle) + mouseY * 5;
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 2; // Slight random depth
+        sizes[i] = 1 + Math.sin(time + i * 0.1) * 0.3; // Pulsing size
       }
       particlesGeometry.attributes.position.needsUpdate = true;
-      particlesMesh.rotation.y += 0.002;
+      particlesGeometry.attributes.size.needsUpdate = true;
+      particlesMesh.rotation.z += 0.005; // Gentle rotation
       renderer.render(scene, camera);
     }
-    animateParticles();
+    animateSpiral();
 
     // Resize Handler
     window.addEventListener('resize', () => {
