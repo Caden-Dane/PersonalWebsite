@@ -1,164 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caden Ice - Personal Website</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body { 
-      background-color: #0a0a0a; 
-      color: #f0e6e6; 
-      font-family: 'Roboto Mono', monospace; 
-      overflow-x: hidden;
-    }
-    .purple-glow { text-shadow: 0 0 8px #a855f7, 0 0 16px #a855f7; }
-    .canvas-overlay { position: fixed; top: 0; left: 0; pointer-events: none; z-index: 0; }
-    .nav-link { 
-      position: relative; 
-      color: #f0e6e6; 
-      transition: color 0.3s ease; 
-    }
-    .nav-link:hover { color: #a855f7; }
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -2px;
-      left: 0;
-      background-color: #a855f7;
-      transition: width 0.3s ease;
-    }
-    .nav-link:hover::after { width: 100%; }
-    .hero-section { 
-      background: linear-gradient(180deg, #1a0a0a 0%, #2a0a1a 100%); 
-      min-height: 100vh; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-    }
-    .hero-text { 
-      transform: translateY(20px); 
-      opacity: 0; 
-    }
-    .hero-image { 
-      transform: scale(0.8); 
-      opacity: 0; 
-    }
-    @media (max-width: 768px) {
-      .text-6xl { font-size: 2.5rem; }
-      .text-4xl { font-size: 1.875rem; }
-      .hero-section { padding: 2rem; }
-      .hero-image { width: 50%; height: auto; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name - Creative Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            margin: 0;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .light-mode {
+            background-color: #ffffff;
+            color: #1a1a1a;
+        }
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s;
+            z-index: 9999;
+        }
+        .custom-cursor.light-mode {
+            border-color: #1a1a1a;
+        }
+        .section {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .project-card video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: #1a1a1a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: right 0.5s ease;
+            z-index: 1000;
+        }
+        .nav-menu.open {
+            right: 0;
+        }
+        .nav-menu a {
+            font-size: 2rem;
+            margin: 1rem 0;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .menu-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+            cursor: pointer;
+        }
+        .mode-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            cursor: pointer;
+        }
+    </style>
 </head>
-<body class="relative">
-  <!-- Intro Animation -->
-  <div id="intro" class="fixed inset-0 bg-[#0a0a0a] flex items-center justify-center z-50">
-    <h1 id="intro-text" class="text-6xl font-bold purple-glow">Caden Ice</h1>
-  </div>
+<body>
+    <div class="custom-cursor"></div>
+    <div class="mode-toggle">Toggle Mode</div>
+    <div class="menu-toggle">☰</div>
+    <nav class="nav-menu">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
 
-  <!-- Navigation -->
-  <nav class="fixed top-0 w-full bg-[#0a0a0a]/90 backdrop-blur-sm z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16 items-center">
-        <div class="flex-shrink-0">
-          <a href="index.html" class="text-xl font-bold purple-glow">Caden Ice</a>
+    <section id="home" class="section">
+        <h1 class="text-5xl md:text-7xl font-bold animate-in">Your Name</h1>
+        <p class="text-xl md:text-2xl mt-4">Creative Developer crafting animation-driven, high-impact websites.</p>
+    </section>
+
+    <section id="about" class="section">
+        <h2 class="text-4xl font-bold mb-4">About Me</h2>
+        <p class="text-lg max-w-2xl">
+            With over 15 years of experience and 140+ projects, I specialize in bringing designs to life with seamless animations and exceptional user experiences. I collaborate with designers and agencies to create memorable digital journeys. Founded my own studio, won a few awards, and always learning.
+        </p>
+    </section>
+
+    <section id="projects" class="section">
+        <h2 class="text-4xl font-bold mb-4">Projects</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="project-card">
+                <video muted loop>
+                    <source src="https://wodniack.dev/static/works/artisan-ld.mp4" type="video/mp4">
+                </video>
+                <div class="project-overlay">
+                    <h3 class="text-2xl font-bold">Project 1</h3>
+                </div>
+            </div>
+            <div class="project-card">
+                <video muted loop>
+                    <source src="https://wodniack.dev/static/works/deside-ld.mp4" type="video/mp4">
+                </video>
+                <div class="project-overlay">
+                    <h3 class="text-2xl font-bold">Project 2</h3>
+                </div>
+            </div>
         </div>
-        <div class="space-x-6">
-          <a href="index.html" class="nav-link text-lg">Home</a>
-          <a href="about.html" class="nav-link text-lg">About</a>
-          <a href="work.html" class="nav-link text-lg">Work</a>
-          <a href="gallery.html" class="nav-link text-lg">Gallery</a>
-          <a href="thoughts.html" class="nav-link text-lg">Thoughts</a>
-          <a href="books.html" class="nav-link text-lg">Books</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+    </section>
 
-  <!-- Three.js Canvas for Mouse Effect -->
-  <canvas id="mouse-effect" class="canvas-overlay"></canvas>
+    <section id="contact" class="section">
+        <h2 class="text-4xl font-bold mb-4">Contact</h2>
+        <p class="text-lg max-w-2xl">
+            Available for freelance work. Reach out to collaborate on your next project!
+        </p>
+        <a href="mailto:your.email@example.com" class="text-xl underline mt-4">Hire Me</a>
+    </section>
 
-  <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="max-w-5xl mx-auto px-4 text-center">
-      <h1 class="text-6xl font-bold purple-glow mb-6 hero-text">Welcome to My Universe</h1>
-      <img src="images/caden-ice.jpg" alt="Caden Ice" class="rounded-full mx-auto mb-6 w-64 h-64 object-cover hero-image">
-      <p class="text-xl mb-8 max-w-2xl mx-auto hero-text">Hi, I'm Caden Ice, a passionate developer and creator exploring the intersection of code, design, and imagination.</p>
-      <a href="about.html" class="inline-block bg-[#a855f7] text-white px-8 py-3 rounded-full hover:bg-[#7e22ce] transition transform hover:scale-105 hero-text">Discover My Story</a>
-    </div>
-  </section>
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
 
-  <!-- About Me Section -->
-  <section class="py-16 bg-[#1a0a0a] text-center">
-    <div class="max-w-3xl mx-auto px-4">
-      <h2 class="text-4xl font-bold purple-glow mb-6">About Me</h2>
-      <p class="text-lg max-w-2xl mx-auto">I'm a creative coder and storyteller with a deep love for technology and design. With years of experience in web development, I enjoy crafting interactive experiences and sharing my journey through projects and blog posts. When I'm not coding, I love exploring new ideas, reading sci-fi novels, and experimenting with digital art.</p>
-    </div>
-  </section>
+        // Dark/Light Mode Toggle
+        const modeToggle = document.querySelector('.mode-toggle');
+        modeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            cursor.classList.toggle('light-mode');
+            modeToggle.textContent = document.body.classList.contains('light-mode') ? 'Dark Mode' : 'Light Mode';
+        });
 
-  <!-- Recent Projects Section -->
-  <section class="py-16 bg-[#2a0a1a] text-center projects-section">
-    <div class="max-w-5xl mx-auto px-4">
-      <h2 class="text-4xl font-bold purple-glow mb-8">Recent Projects</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="project-card bg-[#1a0a0a] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-          <h3 class="text-2xl purple-glow mb-2">Project One</h3>
-          <p class="text-sm mb-4">A responsive portfolio site built with HTML, CSS, and JavaScript.</p>
-          <a href="#" class="text-[#a855f7] hover:underline">View Details</a>
-        </div>
-        <div class="project-card bg-[#1a0a0a] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-          <h3 class="text-2xl purple-glow mb-2">Project Two</h3>
-          <p class="text-sm mb-4">An interactive 3D visualization using Three.js and GSAP.</p>
-          <a href="#" class="text-[#a855f7] hover:underline">View Details</a>
-        </div>
-        <div class="project-card bg-[#1a0a0a] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-          <h3 class="text-2xl purple-glow mb-2">Project Three</h3>
-          <p class="text-sm mb-4">A mobile app prototype for task management.</p>
-          <a href="#" class="text-[#a855f7] hover:underline">View Details</a>
-        </div>
-      </div>
-    </div>
-  </section>
+        // Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('open');
+            menuToggle.textContent = navMenu.classList.contains('open') ? '✕' : '☰';
+        });
 
-  <!-- Latest Thoughts Section -->
-  <section class="py-16 bg-[#1a0a0a] text-center thoughts-section">
-    <div class="max-w-5xl mx-auto px-4">
-      <h2 class="text-4xl font-bold purple-glow mb-8">Latest Thoughts</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="thought-preview bg-[#2a0a1a] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-          <h3 class="text-xl purple-glow mb-2">The Future of Web Design</h3>
-          <p class="text-sm mb-4">Exploring trends in web design for 2025 and beyond.</p>
-          <a href="thoughts.html" class="text-[#a855f7] hover:underline">Read More</a>
-        </div>
-        <div class="thought-preview bg-[#2a0a1a] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-          <h3 class="text-xl purple-glow mb-2">Learning Three.js</h3>
-          <p class="text-sm mb-4">My journey into 3D graphics with Three.js.</p>
-          <a href="thoughts.html" class="text-[#a855f7] hover:underline">Read More</a>
-        </div>
-      </div>
-    </div>
-  </section>
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                navMenu.classList.remove('open');
+                menuToggle.textContent = '☰';
+            });
+        });
 
-  <!-- Footer -->
-  <footer class="py-8 bg-[#0a0a0a] text-center">
-    <div class="max-w-5xl mx-auto px-4">
-      <p class="mb-4">© 2025 Caden Ice. All rights reserved.</p>
-      <div class="space-x-4">
-        <a href="mailto:caden@example.com" class="text-[#a855f7] hover:underline">Email</a>
-        <a href="https://twitter.com/cadenice" class="text-[#a855f7] hover:underline">Twitter</a>
-        <a href="https://github.com/cadenice" class="text-[#a855f7] hover:underline">GitHub</a>
-      </div>
-    </div>
-  </footer>
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
 
-  <script src="js/main.js"></script>
+        gsap.from('.animate-in', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            ease: 'power2.out'
+        });
+
+        document.querySelectorAll('.section').forEach(section => {
+            gsap.from(section.children, {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                stagger: 0.2,
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 80%',
+                    toggleActions: 'play none none none'
+                }
+            });
+        });
+
+        // Auto-play videos on hover
+        document.querySelectorAll('.project-card').forEach(card => {
+            const video = card.querySelector('video');
+            card.addEventListener('mouseenter', () => video.play());
+            card.addEventListener('mouseleave', () => video.pause());
+        });
+    </script>
 </body>
 </html>
