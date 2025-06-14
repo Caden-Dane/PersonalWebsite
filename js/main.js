@@ -81,8 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0); // Transparent background
-    canvas.style.background = 'transparent'; // Ensure canvas background is transparent
-    canvas.style.display = 'block'; // Ensure no default inline-block space
+    canvas.style.backgroundColor = 'transparent'; // Ensure no white background
+    canvas.style.display = 'block'; // Prevent inline-block spacing
     canvas.style.zIndex = 1; // Ensure canvas is visible
     document.body.appendChild(canvas); // Ensure canvas is in DOM
     camera.position.z = 5;
