@@ -7,28 +7,28 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Intro elements found, starting animation');
     if (typeof gsap !== 'undefined') {
       try {
+        console.log('GSAP detected, initiating animation sequence');
         gsap.fromTo(introText, 
           { x: '-100%', opacity: 0 },
           { 
             x: '0%', 
             opacity: 1, 
-            duration: 1.5, 
+            duration: 0.3, 
             ease: 'power3.out', 
             onComplete: () => {
               console.log('Intro slide-in complete');
               gsap.to(introText, { 
                 x: '100%', 
                 opacity: 0, 
-                duration: 1.5, 
+                duration: 0.3, 
                 ease: 'power3.in', 
-                delay: 0.5,
                 onComplete: () => {
                   console.log('Intro slide-out complete');
                   gsap.to(intro, { 
                     opacity: 0, 
-                    duration: 0.5, 
+                    duration: 0.4, 
                     onComplete: () => {
-                      console.log('Intro faded out, removing');
+                      console.log('Intro fade-out complete, removing');
                       intro.style.display = 'none';
                       intro.remove();
                     }
@@ -39,33 +39,35 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         );
       } catch (e) {
-        console.error('GSAP animation error:', e);
+        console.error('GSAP animation error, forcing intro removal:', e);
         intro.style.display = 'none';
         intro.remove();
       }
     } else {
       console.error('GSAP not loaded, using fallback');
-      introText.style.transition = 'transform 1.5s ease-out, opacity 1.5s ease-out';
+      introText.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
       introText.style.transform = 'translateX(0)';
       introText.style.opacity = '1';
       setTimeout(() => {
         introText.style.transform = 'translateX(100%)';
         introText.style.opacity = '0';
         setTimeout(() => {
+          intro.style.opacity = '0';
           intro.style.display = 'none';
           intro.remove();
           console.log('Fallback intro removed');
-        }, 1500);
-      }, 1500);
+        }, 400);
+      }, 300);
     }
 
+    // Fallback to ensure intro is removed after 1 second
     setTimeout(() => {
       if (intro && intro.parentNode) {
-        console.log('Fallback triggered: removing intro');
+        console.log('Timeout fallback triggered: removing intro');
         intro.style.display = 'none';
         intro.remove();
       }
-    }, 4000);
+    }, 1000);
   } else {
     console.warn('Intro elements not found:', { intro: !!intro, introText: !!introText });
   }
@@ -115,14 +117,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let mouseX = 0, mouseY = 0;
 
     document.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+      mouseX = (e.clientX / window.innerWidth) * 4 - 2; // Increased sensitivity
+      mouseY = -(e.clientY / window.innerHeight) * 4 + 2;
     });
 
     document.addEventListener('touchmove', (e) => {
       const touch = e.touches[0];
-      mouseX = (touch.clientX / window.innerWidth) * 2 - 1;
-      mouseY = -(touch.clientY / window.innerHeight) * 2 + 1;
+      mouseX = (touch.clientX / window.innerWidth) * 4 - 2;
+      mouseY = -(touch.clientY / window.innerHeight) * 4 + 2;
     }, { passive: true });
 
     function animateSpiral() {
@@ -134,8 +136,10 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let i = 0; i < particlesCount; i++) {
         const angle = (i / particlesCount) * Math.PI * 10 + time; // Rotate over time
         const radius = (i / particlesCount * 3) + (Math.sin(time + i * 0.1) * 0.5); // Pulsing radius
-        positions[i * 3] = radius * Math.cos(angle) + mouseX * 5;
-        positions[i * 3 + 1] = radius * Math.sin(angle) + mouseY * 5;
+        const centerX = mouseX; // Direct mouse offset
+        const centerY = mouseY;
+        positions[i * 3] = radius * Math.cos(angle) + centerX; // Tighter follow
+        positions[i * 3 + 1] = radius * Math.sin(angle) + centerY;
         positions[i * 3 + 2] = (Math.random() - 0.5) * 2; // Slight random depth
         sizes[i] = 1 + Math.sin(time + i * 0.1) * 0.3; // Pulsing size
       }
