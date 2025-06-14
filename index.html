@@ -8,7 +8,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/three@0.134.0/examples/jsm/loaders/FontLoader.js" type="module"></script> <!-- Updated with type="module" -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body { 
@@ -87,15 +86,78 @@
   <!-- Three.js Canvas for Mouse Effect -->
   <canvas id="mouse-effect" class="canvas-overlay"></canvas>
 
-  <!-- Home Page Content -->
+  <!-- Hero Section -->
   <section class="hero-section">
     <div class="max-w-5xl mx-auto px-4 text-center">
       <h1 class="text-6xl font-bold purple-glow mb-6 hero-text">Welcome to My Universe</h1>
-      <img src="images/caden-ice.jpg" alt="Caden Ice" class="rounded-full mx-auto mb-6 w-64 h-64 object-cover hero-image"> <!-- Ensure this file exists -->
-      <p class="text-xl mb-8 max-w-2xl mx-auto hero-text">[Hi, I'm Caden Ice. I'm a [your profession/hobby, e.g., developer, artist, storyteller] passionate about creating and exploring new ideas.]</p>
+      <img src="images/caden-ice.jpg" alt="Caden Ice" class="rounded-full mx-auto mb-6 w-64 h-64 object-cover hero-image">
+      <p class="text-xl mb-8 max-w-2xl mx-auto hero-text">Hi, I'm Caden Ice, a passionate developer and creator exploring the intersection of code, design, and imagination.</p>
       <a href="about.html" class="inline-block bg-[#a855f7] text-white px-8 py-3 rounded-full hover:bg-[#7e22ce] transition transform hover:scale-105 hero-text">Discover My Story</a>
     </div>
   </section>
+
+  <!-- About Me Section -->
+  <section class="py-16 bg-[#1a0a0a] text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-4xl font-bold purple-glow mb-6">About Me</h2>
+      <p class="text-lg max-w-2xl mx-auto">I'm a creative coder and storyteller with a deep love for technology and design. With years of experience in web development, I enjoy crafting interactive experiences and sharing my journey through projects and blog posts. When I'm not coding, I love exploring new ideas, reading sci-fi novels, and experimenting with digital art.</p>
+    </div>
+  </section>
+
+  <!-- Recent Projects Section -->
+  <section class="py-16 bg-[#2a0a1a] text-center projects-section">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="text-4xl font-bold purple-glow mb-8">Recent Projects</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="project-card bg-[#1a0a0a] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+          <h3 class="text-2xl purple-glow mb-2">Project One</h3>
+          <p class="text-sm mb-4">A responsive portfolio site built with HTML, CSS, and JavaScript.</p>
+          <a href="#" class="text-[#a855f7] hover:underline">View Details</a>
+        </div>
+        <div class="project-card bg-[#1a0a0a] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+          <h3 class="text-2xl purple-glow mb-2">Project Two</h3>
+          <p class="text-sm mb-4">An interactive 3D visualization using Three.js and GSAP.</p>
+          <a href="#" class="text-[#a855f7] hover:underline">View Details</a>
+        </div>
+        <div class="project-card bg-[#1a0a0a] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+          <h3 class="text-2xl purple-glow mb-2">Project Three</h3>
+          <p class="text-sm mb-4">A mobile app prototype for task management.</p>
+          <a href="#" class="text-[#a855f7] hover:underline">View Details</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Thoughts Section -->
+  <section class="py-16 bg-[#1a0a0a] text-center thoughts-section">
+    <div class="max-w-5xl mx-auto px-4">
+      <h2 class="text-4xl font-bold purple-glow mb-8">Latest Thoughts</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="thought-preview bg-[#2a0a1a] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+          <h3 class="text-xl purple-glow mb-2">The Future of Web Design</h3>
+          <p class="text-sm mb-4">Exploring trends in web design for 2025 and beyond.</p>
+          <a href="thoughts.html" class="text-[#a855f7] hover:underline">Read More</a>
+        </div>
+        <div class="thought-preview bg-[#2a0a1a] p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
+          <h3 class="text-xl purple-glow mb-2">Learning Three.js</h3>
+          <p class="text-sm mb-4">My journey into 3D graphics with Three.js.</p>
+          <a href="thoughts.html" class="text-[#a855f7] hover:underline">Read More</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 bg-[#0a0a0a] text-center">
+    <div class="max-w-5xl mx-auto px-4">
+      <p class="mb-4">© 2025 Caden Ice. All rights reserved.</p>
+      <div class="space-x-4">
+        <a href="mailto:caden@example.com" class="text-[#a855f7] hover:underline">Email</a>
+        <a href="https://twitter.com/cadenice" class="text-[#a855f7] hover:underline">Twitter</a>
+        <a href="https://github.com/cadenice" class="text-[#a855f7] hover:underline">GitHub</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="js/main.js"></script>
 </body>
