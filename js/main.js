@@ -112,6 +112,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const particlesMesh = new THREE.Points(particlesGeometry, material);
     scene.add(particlesMesh);
 
+    // Click Effect Particles
+    const clickParticlesGeometry = new THREE.BufferGeometry();
+    const clickParticlesCount = 50;
+    const clickPosArray = new Float32Array(clickParticlesCount * 3);
+    const clickScaleArray = new Float32Array(clickParticlesCount);
+    const clickOpacityArray = new Float32Array(clickParticlesCount);
+    clickParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(clickPosArray, 3));
+    clickParticlesGeometry.setAttribute('size', new THREE.BufferAttribute(clickScaleArray, 1));
+    clickParticlesGeometry.setAttribute('opacity', new THREE.BufferAttribute(clickOpacityArray, 1));
+    const clickMaterial = new THREE.PointsMaterial({ 
+      color: 0xa855f7, 
+      size: 0.2, 
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      vertexColors: false
+    });
+    const clickParticlesMesh = new THREE.Points(clickParticlesGeometry, clickMaterial);
+    scene.add(clickParticlesMesh);
+    let clickParticles = [];
+
     let mouseX = 0, mouseY = 0;
     let time = 0;
 
@@ -126,6 +146,24 @@ document.addEventListener('DOMContentLoaded', () => {
       mouseY = -((touch.clientY / window.innerHeight) * 10) + 5;
     }, { passive: true });
 
+    document.addEventListener('click', (e) => {
+      const x = ((e.clientX / window.innerWidth) * 10) - 5;
+      const y = -((e.clientY / window.innerHeight) * 10) + 5;
+      clickParticles = [];
+      for (let i = 0; i < clickParticlesCount; i++) {
+        clickParticles.push({
+          x: x,
+          y: y,
+          z: 0,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          vz: (Math.random() - 0.5) * 0.5,
+          life: 1.0,
+          maxLife: Math.random() * 1.5 + 0.5
+        });
+      }
+    });
+
     function animateWave() {
       requestAnimationFrame(animateWave);
       const positions = particlesGeometry.attributes.position.array;
@@ -137,15 +175,49 @@ document.addEventListener('DOMContentLoaded', () => {
           const index = i * gridSize + j;
           const x = (i - gridSize / 2) * 0.5 + mouseX;
           const y = (j - gridSize / 2) * 0.5 + mouseY;
-          const wave = Math.sin(time + x + y) * 0.3; // Wave effect
+          const wave = Math.sin(time + x + y) * 0.3;
           positions[index * 3] = x;
           positions[index * 3 + 1] = y;
           positions[index * 3 + 2] = wave;
-          sizes[index] = 1 + Math.abs(wave) * 2; // Scale based on wave height
+          sizes[index] = 1 + Math.abs(wave) * 2;
         }
       }
       particlesGeometry.attributes.position.needsUpdate = true;
       particlesGeometry.attributes.size.needsUpdate = true;
+
+      // Update and render click particles
+      const clickPositions = clickParticlesGeometry.attributes.position.array;
+      const clickSizes = clickParticlesGeometry.attributes.size.array;
+      const clickOpacities = clickParticlesGeometry.attributes.opacity.array;
+
+      for (let i = 0; i < clickParticlesCount; i++) {
+        if (clickParticles[i]) {
+          clickParticles[i].life -= 0.02;
+          if (clickParticles[i].life <= 0) {
+            clickParticles[i] = null;
+            clickPositions[i * 3] = 0;
+            clickPositions[i * 3 + 1] = 0;
+            clickPositions[i * 3 + 2] = 0;
+            clickSizes[i] = 0;
+            clickOpacities[i] = 0;
+          } else {
+            clickParticles[i].x += clickParticles[i].vx;
+            clickParticles[i].y += clickParticles[i].vy;
+            clickParticles[i].z += clickParticles[i].vz;
+            const scale = (clickParticles[i].life / clickParticles[i].maxLife) * 2;
+            clickPositions[i * 3] = clickParticles[i].x;
+            clickPositions[i * 3 + 1] = clickParticles[i].y;
+            clickPositions[i * 3 + 2] = clickParticles[i].z;
+            clickSizes[i] = scale;
+            clickOpacities[i] = clickParticles[i].life;
+          }
+        }
+      }
+      clickParticlesGeometry.attributes.position.needsUpdate = true;
+      clickParticlesGeometry.attributes.size.needsUpdate = true;
+      clickParticlesGeometry.attributes.opacity.needsUpdate = true;
+      clickMaterial.opacity = 0.8; // Ensure material opacity is applied
+
       renderer.render(scene, camera);
     }
     animateWave();
