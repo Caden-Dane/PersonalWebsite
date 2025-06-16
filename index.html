@@ -1,673 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caden Ice - Creative Developer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <style>
-        :root {
-            --bg-start: #0a0a0a;
-            --bg-end: #1a2a3a;
-            --text-color: #ffffff;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caden Ice - About</title>
+  <style>
+    /* Lato and Poppins Fonts */
+    /* [Insert the full @font-face definitions for Lato and Poppins here as provided] */
+    /* Example snippet for brevity, include all in production */
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: ur[](https://fonts.gstatic.com/s/lato/v24/S6uyw4BMUTPHjx4wXiWtFCc.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    @font-face {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 700;
+      src: ur[](https://fonts.gstatic.com/s/poppins/v23/pxiByp8kv8JHgFVrLCz7Z1xlFd2JQEk.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    /* Shape Block Styling */
+    .sqs-block[data-definition-name="website.components.shape"] svg.sqs-shape {
+      fill: var(--shape-block-background-color);
+      stroke: var(--shape-block-stroke-color);
+    }
+    .sqs-block[data-definition-name="website.components.shape"] .sqs-shape-rectangle {
+      background: var(--shape-block-background-color);
+      border-color: var(--shape-block-stroke-color);
+    }
+    .sqs-block[data-definition-name="website.components.shape"] .sqs-block-content,
+    .sqs-block[data-definition-name="website.components.shape"] .sqs-block-alignment-wrapper {
+      height: 100%;
+    }
+    .sqs-block[data-definition-name="website.components.shape"] .sqs-block-alignment-wrapper {
+      display: flex;
+    }
+    .sqs-block[data-definition-name="website.components.shape"] .sqs-shape {
+      display: block;
+      position: absolute;
+      overflow: visible;
+    }
+    .sqs-block[data-definition-name="website.components.shape"] .sqs-shape-block-container {
+      position: relative;
+      color: var(--shape-block-dropshadow-color);
+    }
+    .sqs-block[data-definition-name="website.components.shape"] .sqs-shape-block-container.hidden-stretch-block {
+      display: none;
+    }
+
+    /* General Styling */
+    body {
+      font-family: 'Lato', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      background-color: #1a1a1a;
+      line-height: 1.6;
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(26, 26, 26, 0.9);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+    .logo { font-size: 24px; font-weight: 400; }
+    .nav a {
+      color: #fff;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.3s;
+    }
+    .nav a:hover { color: #ff6200; }
+    .section {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+    }
+    .overlay {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      border-radius: 10px;
+    }
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #ff6200;
+      font-weight: 700;
+    }
+    p { font-size: 18px; margin-bottom: 20px; font-weight: 300; }
+    .divider { border-bottom: 2px solid #ff6200; margin: 20px 0; }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #ff6200;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 20px;
+      margin: 10px;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+    .button:hover { background-color: #e65c00; }
+    ul { list-style-type: none; padding: 0; text-align: left; display: inline-block; }
+    ul li { margin-bottom: 10px; font-weight: 300; }
+    .quote-author { font-style: italic; font-weight: 700; font-family: 'Lato', sans-serif; }
+    /* Background images */
+    #about { background-image: url('caden-ice-photo.jpg'); }
+    #background { background-image: url('caden-ice-working.jpg'); }
+    #trajectory { background-image: url('spiral-staircase.jpg'); }
+    #expertise { background-image: url('quote-background.jpg'); }
+    #quote { background-image: url('spiral-staircase.jpg'); }
+
+    /* Typekit Integration */
+    @import url('https://use.typekit.net/646866.css');
+  </style>
+  <!-- Typekit Configuration -->
+  <script>
+    if (!window.Typekit) window.Typekit = {};
+    window.Typekit.config = {
+      "a": "646866",
+      "dl": "AAABAwAAAAo5gvB7HW_ao8JpVafar_bAkj6qIyl3ExGou-J4jvp9JAAAAAQ",
+      "fi": [30351, 30355, 30356],
+      "fc": [{
+        "id": 30351,
+        "family": "forma-djr-display",
+        "src": "https://use.typekit.net/af/2fc78f/00000000000000007759f94d/31/{format}{?primer,subset_id,fvd,v}",
+        "descriptors": {
+          "weight": "500",
+          "style": "normal",
+          "stretch": "normal",
+          "display": "auto",
+          "variable": false,
+          "subset_id": 2
         }
-        .light-mode {
-            --bg-start: #f0f0f0;
-            --bg-end: #e0e0e0;
-            --text-color: #0a0a0a;
+      }, {
+        "id": 30355,
+        "family": "forma-djr-display",
+        "src": "https://use.typekit.net/af/f088ed/00000000000000007759f955/31/{format}{?primer,subset_id,fvd,v}",
+        "descriptors": {
+          "weight": "700",
+          "style": "normal",
+          "stretch": "normal",
+          "display": "auto",
+          "variable": false,
+          "subset_id": 2
         }
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text-color);
-            margin: 0;
-            overflow-x: hidden;
-            position: relative;
+      }, {
+        "id": 30356,
+        "family": "forma-djr-display",
+        "src": "https://use.typekit.net/af/ef1935/00000000000000007759f94c/31/{format}{?primer,subset_id,fvd,v}",
+        "descriptors": {
+          "weight": "700",
+          "style": "italic",
+          "stretch": "normal",
+          "display": "auto",
+          "variable": false,
+          "subset_id": 2
         }
-        .background-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--bg-start), var(--bg-end));
-            z-index: -2;
-            transition: opacity 0.8s ease;
-            opacity: 0.7;
-        }
-        #three-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -3;
-        }
-        .custom-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #00ffcc;
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: all 0.1s ease;
-            z-index: 9999;
-            mix-blend-mode: difference;
-        }
-        .custom-cursor.trail {
-            background: radial-gradient(circle, rgba(0, 255, 204, 0.3) 0%, transparent 70%);
-            border: none;
-            width: 30px;
-            height: 30px;
-        }
-        .section {
-            min-height: 100vh;
-            padding: 2rem 1rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-        .hero-text {
-            font-size: 4rem;
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            position: relative;
-        }
-        .hero-text span {
-            display: inline-block;
-        }
-        .hero-subtext {
-            font-size: 1.2rem;
-            max-width: 90%;
-            margin-top: 1rem;
-            opacity: 0.8;
-        }
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(0, 255, 204, 0.1), rgba(255, 0, 204, 0.1));
-            z-index: -1;
-        }
-        .experience-card {
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            text-align: left;
-        }
-        .experience-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(0, 255, 204, 0.2), rgba(255, 0, 204, 0.2));
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .nav-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            height: 100vh;
-            background: var(--bg-start);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: right 0.8s cubic-bezier(0.77, 0, 0.175, 1);
-            z-index: 1000;
-        }
-        .nav-menu a {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 0.5rem 0;
-            color: var(--text-color);
-            text-decoration: none;
-            opacity: 0;
-            transform: rotateY(90deg);
-        }
-        .menu-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1001;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .menu-toggle svg {
-            width: 100%;
-            height: 100%;
-        }
-        .menu-toggle path {
-            fill: none;
-            stroke: #00ffcc;
-            stroke-width: 4;
-            stroke-linecap: round;
-        }
-        .squiggly-underline {
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 4px;
-            background: linear-gradient(to right, #00ffcc, #ff00cc);
-            opacity: 0;
-            z-index: 999;
-        }
-        .nav-menu.open .squiggly-underline {
-            width: 80%;
-            opacity: 1;
-        }
-        .mode-toggle {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 1001;
-            font-size: 0.9rem;
-            cursor: pointer;
-            color: var(--text-color);
-            padding: 0.5rem 1rem;
-            border-radius: 999px;
-            background: rgba(0, 255, 204, 0.2);
-        }
-        .clipboard-button {
-            font-size: 1.125rem;
-            padding: 0.5rem 1rem;
-            margin-top: 1rem;
-            background: linear-gradient(to right, #00ffcc, #ff00cc);
-            color: #0a0a0a;
-            border: none;
-            border-radius: 999px;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .clipboard-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
-        }
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .glitch::before {
-            color: #00ffcc;
-            transform: translateX(-2px);
-            animation: glitch-left 2s infinite;
-        }
-        .glitch::after {
-            color: #ff00cc;
-            transform: translateX(2px);
-            animation: glitch-right 2s infinite;
-        }
-        @keyframes glitch-left {
-            0% { transform: translateX(-2px); opacity: 0.8; }
-            50% { transform: translateX(2px); opacity: 0.4; }
-            100% { transform: translateX(-2px); opacity: 0.8; }
-        }
-        @keyframes glitch-right {
-            0% { transform: translateX(2px); opacity: 0.8; }
-            50% { transform: translateX(-2px); opacity: 0.4; }
-            100% { transform: translateX(2px); opacity: 0.8; }
-        }
-        @media (max-width: 768px) {
-            .hero-text {
-                font-size: 2.5rem;
-            }
-            .hero-subtext {
-                font-size: 1rem;
-            }
-            .nav-menu a {
-                font-size: 1.5rem;
-            }
-            .experience-card {
-                width: 100%;
-                max-width: 100%;
-            }
-            .custom-cursor {
-                display: none;
-            }
-            .menu-toggle {
-                width: 30px;
-                height: 30px;
-            }
-        }
-    </style>
+      }],
+      "fn": ["forma-djr-display", ["i7", "n5", "n7"]],
+      "hn": "use.typekit.net",
+      "ht": "tk",
+      "js": "1.21.0",
+      "kt": "646866_5c6fd1c7c2ff616d47ed3809",
+      "l": "typekit",
+      "ps": 2,
+      "ping": "https://p.typekit.net/p.gif{?s,k,ht,h,f,a,js,app,e,_}",
+      "pm": true,
+      "type": "configurable"
+    };
+  </script>
+  <script>
+    (function(window, document, undefined) {
+      if (!document.querySelector) {
+        document.documentElement.className += " wf-inactive";
+        return;
+      }
+      // [Rest of the Typekit script remains unchanged for brevity]
+      // Full script should be included in production
+      window.Typekit || (window.Typekit = {});
+      if (!window.Typekit.load) {
+        var V = new U(new G("//" + (window.Typekit.config || {}).hn + "/{id}.js"), Ia);
+        window.Typekit.load = function() { V.load.apply(V, arguments); };
+        window.Typekit.addKit = function() { V.i.apply(V, arguments); };
+      }
+      for (var W, m = window.Typekit.config || {}, Ha = [], Ja = m.fc, Ka = 0; Ka < Ja.length; Ka++) Ha.push(Ja[Ka].id);
+      W = new T(Ia);
+      m.ping && (W.m = new Ga);
+      if (m.fc) for (var X = m.fc, Z = 0; Z < X.length; Z++) W.o.b.push(new ma(X[Z].family, X[Z].src, X[Z].descriptors));
+      if (m.dl) { var La = m.dl; try { W.j = new ha(La); } catch (a) {} }
+      m.kt && (W.u = m.kt);
+      m.token && (W.i = m.token);
+      if (m.c) for (var p = 0; p < m.c.length; p += 2) W.g.push(new da);
+      window.Typekit.addKit(W);
+      if (window.WebFont) try { window.Typekit.load(); } catch (a) {};
+    })(this, document);
+  </script>
 </head>
 <body>
-    <canvas id="three-canvas"></canvas>
-    <div class="background-layer"></div>
-    <div class="custom-cursor"></div>
-    <div class="mode-toggle">Dark Mode</div>
-    <div class="menu-toggle">
-        <svg viewBox="0 0 100 100">
-            <path class="squiggly-path" d="M10,50 Q30,30 50,50 T90,50"/>
-        </svg>
+  <div class="header">
+    <div class="logo">C I</div>
+    <div class="nav">
+      <a href="#home">HOME</a>
+      <a href="#about">ABOUT</a>
+      <a href="#projects">PROJECTS</a>
+      <a href="#blog">BLOG</a>
+      <a href="#contact">CONTACT</a>
     </div>
-    <nav class="nav-menu">
-        <div class="squiggly-underline"></div>
-        <a href="index.html#home">Home</a>
-        <a href="about.html">About</a>
-        <a href="thoughts.html">Thoughts</a>
-        <a href="books.html">Books</a>
-        <a href="projects.html">Projects</a>
-    </nav>
+  </div>
 
-    <section id="home" class="section" data-bg-start="#0a0a0a" data-bg-end="#1a2a3a">
-        <div class="hero-overlay"></div>
-        <h1 class="hero-text glitch" data-text="Caden Ice">Caden Ice</h1>
-        <p class="hero-subtext">Creative Developer crafting immersive, animation-driven digital experiences.</p>
-    </section>
+  <div id="about" class="section">
+    <div class="overlay">
+      <h1>ABOUT.</h1>
+      <div class="divider"></div>
+      <p>I'm passionate about technology and driven by innovation. As a senior at UNT studying Computer Information Systems, I enjoy working on cutting-edge projects, like AI-driven automation, to build skills for a future career in tech.</p>
+      <p>I’m inspired by peers who share a vision of 'tech for good,' and I’m grateful for their support as I prepare to tackle industry challenges.</p>
+      <a href="https://example.com/blog" class="button">MY THOUGHTS ON AI</a>
+      <a href="https://example.com/projects" class="button">PROJECTS</a>
+    </div>
+  </div>
 
-    <section id="work-experience" class="section" data-bg-start="#1a2a3a" data-bg-end="#3a1a2a">
-        <h2 class="text-3xl font-bold mb-4">Work Experience</h2>
-        <div class="grid grid-cols-1 gap-4">
-            <div class="experience-card">
-                <div class="experience-overlay"></div>
-                <h3 class="text-xl font-bold">Software Development Intern</h3>
-                <h4 class="text-lg font-semibold">Zeal IT Consultants</h4>
-                <p class="text-base opacity-80">May 16, 2025 - Present</p>
-                <p class="text-base mt-2">Contributed to software development projects, including coding, debugging, and collaborating with senior developers to deliver high-quality solutions.</p>
-            </div>
-        </div>
-    </section>
+  <div id="background" class="section">
+    <div class="overlay">
+      <h1>MY BACKGROUND IS A BIT LIKE A PIZZA</h1>
+      <div class="divider"></div>
+      <p>The base is Computer Information Systems, the sauce is Programming and Software Development, with toppings from projects like AI debugging tools I’ve built at UNT.</p>
+      <p>I’ve also explored web development and database management, fueling my passion for efficient systems.</p>
+    </div>
+  </div>
 
-    <section id="contact" class="section" data-bg-start="#3a1a2a" data-bg-end="#0a0a0a">
-        <h2 class="text-3xl font-bold mb-4">Get in Touch</h2>
-        <p class="text-base max-w-[90%]">
-            Ready to create something extraordinary? Copy my email to connect!
-        </p>
-        <button class="clipboard-button" onclick="copyEmail()">Copy Email</button>
-    </section>
+  <div id="trajectory" class="section">
+    <div class="overlay">
+      <h1>INFLUENCE AND TRAJECTORY</h1>
+      <div class="divider"></div>
+      <p>My journey at UNT has been shaped by class projects, talented professors, and peers. I’ve led coding initiatives and recently published a blog on mid-air haptics, a passion area.</p>
+      <p>I owe my growth to the community and experiences that guide my path in tech.</p>
+      <a href="https://example.com/about" class="button">ORESIFY</a>
+    </div>
+  </div>
 
-    <script>
-        // Copy Email to Clipboard
-        function copyEmail() {
-            navigator.clipboard.writeText('cadendane@gmail.com').then(() => {
-                const button = document.querySelector('.clipboard-button');
-                const originalText = button.textContent;
-                button.textContent = 'Copied!';
-                gsap.to(button, { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1 });
-                setTimeout(() => button.textContent = originalText, 2000);
-            }).catch(err => console.error('Failed to copy email:', err));
-        }
+  <div id="expertise" class="section">
+    <div class="overlay">
+      <h1>EXPERTISE AND SPECIALISATIONS</h1>
+      <div class="divider"></div>
+      <ul>
+        <li>Mid-air haptic interfaces</li>
+        <li>Human-Computer Interaction</li>
+        <li>Stochastic Point Processes</li>
+        <li>Wireless Sensor Networks</li>
+        <li>LoRa and IoT Networks</li>
+        <li>Wireless Indoor Localisation</li>
+      </ul>
+      <ul>
+        <li>Web Development</li>
+        <li>Database Management</li>
+        <li>Software Optimization</li>
+        <li>AI-Driven Automation</li>
+        <li>Project Management</li>
+        <li>System Design</li>
+      </ul>
+    </div>
+  </div>
 
-        // Initialize GSAP and Plugins
-        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
-        // Detect Mobile
-        const isMobile = window.innerWidth <= 768;
-
-        // Three.js Particle Field (Disabled on Mobile)
-        if (!isMobile) {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            const particleCount = 500;
-            const positions = new Float32Array(particleCount * 3);
-            const colors = new Float32Array(particleCount * 3);
-            for (let i = 0; i < particleCount; i++) {
-                positions[i * 3] = (Math.random() - 0.5) * 100;
-                positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
-                positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
-                colors[i * 3] = 0.0;
-                colors[i * 3 + 1] = Math.random();
-                colors[i * 3 + 2] = Math.random();
-            }
-            const geometry = new THREE.BufferGeometry();
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-            const material = new THREE.PointsMaterial({
-                size: 0.3,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.6,
-                blending: THREE.AdditiveBlending
-            });
-            const particles = new THREE.Points(geometry, material);
-            scene.add(particles);
-            camera.position.z = 50;
-
-            let mouseX = 0, mouseY = 0;
-            document.addEventListener('mousemove', (e) => {
-                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-                mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-            });
-
-            const animate = () => {
-                requestAnimationFrame(animate);
-                particles.rotation.y += 0.001;
-                camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
-                camera.position.y += (mouseY * 10 - camera.position.y) * 0.05;
-                camera.lookAt(scene.position);
-                renderer.render(scene, camera);
-            };
-            animate();
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        }
-
-        // Custom Cursor (Disabled on Mobile)
-        if (!isMobile) {
-            const cursor = document.querySelector('.custom-cursor');
-            let trailTimeout;
-            document.addEventListener('mousemove', (e) => {
-                gsap.to(cursor, {
-                    x: e.clientX,
-                    y: e.clientY,
-                    duration: 0.2,
-                    ease: 'power4.out'
-                });
-                cursor.classList.add('trail');
-                clearTimeout(trailTimeout);
-                trailTimeout = setTimeout(() => cursor.classList.remove('trail'), 200);
-            });
-            document.querySelectorAll('.experience-card, a, .menu-toggle, .mode-toggle, .clipboard-button').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    gsap.to(cursor, {
-                        scale: 1.5,
-                        background: 'radial-gradient(circle, rgba(255, 0, 204, 0.5) 0%, transparent 70%)',
-                        border: 'none',
-                        duration: 0.3
-                    });
-                });
-                el.addEventListener('mouseleave', () => {
-                    gsap.to(cursor, {
-                        scale: 1,
-                        background: 'none',
-                        border: '2px solid #00ffcc',
-                        duration: 0.3
-                    });
-                });
-            });
-        }
-
-        // Dark/Light Mode Toggle
-        const modeToggle = document.querySelector('.mode-toggle');
-        modeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            document.querySelector('.menu-toggle path').style.stroke = document.body.classList.contains('light-mode') ? '#0a0a0a' : '#00ffcc';
-            modeToggle.textContent = document.body.classList.contains('light-mode') ? 'Light Mode' : 'Dark Mode';
-        });
-
-        // Menu Animation with Squiggly Line
-        const menuToggle = document.querySelector('.menu-toggle');
-        const squigglyPath = document.querySelector('.squiggly-path');
-        const navMenu = document.querySelector('.nav-menu');
-        const navLinks = document.querySelectorAll('.nav-menu a');
-        const squigglyUnderline = document.querySelector('.squiggly-underline');
-        menuToggle.addEventListener('click', () => {
-            const isOpen = navMenu.classList.toggle('open');
-            gsap.to(navMenu, {
-                right: isOpen ? '0' : '-100%',
-                duration: 0.8,
-                ease: 'power4.inOut'
-            });
-            gsap.to(squigglyPath, {
-                attr: {
-                    d: isOpen ? 'M10,50 L90,50' : 'M10,50 Q30,30 50,50 T90,50'
-                },
-                duration: 0.6,
-                ease: 'power4.inOut'
-            });
-            gsap.to(squigglyUnderline, {
-                width: isOpen ? '80%' : '0',
-                opacity: isOpen ? 1 : 0,
-                duration: 0.8,
-                ease: 'power4.inOut',
-                delay: isOpen ? 0.3 : 0
-            });
-            gsap.to(navLinks, {
-                opacity: isOpen ? 1 : 0,
-                rotateY: isOpen ? 0 : 90,
-                y: isOpen ? 0 : 20,
-                duration: 0.6,
-                stagger: 0.1,
-                ease: 'power4.out',
-                delay: isOpen ? 0.3 : 0
-            });
-        });
-
-        // Smooth Scroll for Internal Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                gsap.to(window, {
-                    duration: 1.2,
-                    scrollTo: { y: this.getAttribute('href'), offsetY: 20 },
-                    ease: 'power4.inOut'
-                });
-                navMenu.classList.remove('open');
-                gsap.to(squigglyPath, {
-                    attr: { d: 'M10,50 Q30,30 50,50 T90,50' },
-                    duration: 0.6,
-                    ease: 'power4.inOut'
-                });
-                gsap.to(squigglyUnderline, {
-                    width: '0',
-                    opacity: 0,
-                    duration: 0.8,
-                    ease: 'power4.inOut'
-                });
-                gsap.to(navLinks, {
-                    opacity: 0,
-                    rotateY: 90,
-                    y: 20,
-                    duration: 0.4,
-                    stagger: 0.05,
-                    ease: 'power4.in'
-                });
-            });
-        });
-
-        // Hero Section Animations
-        const heroText = document.querySelector('.hero-text');
-        const heroTextSpans = heroText.querySelectorAll('span');
-        gsap.from(heroTextSpans, {
-            opacity: 0,
-            y: 100,
-            skewY: 10,
-            duration: 1.5,
-            stagger: 0.05,
-            ease: 'power4.out',
-            delay: 0.5
-        });
-        gsap.from('.hero-subtext', {
-            opacity: 0,
-            y: 50,
-            scale: 0.95,
-            duration: 1.2,
-            ease: 'power4.out',
-            delay: 1
-        });
-        gsap.from('.hero-overlay', {
-            scale: 0,
-            opacity: 0,
-            duration: 2,
-            ease: 'power4.out'
-        });
-
-        // Section Animations with Seamless Color Transitions
-        const sections = document.querySelectorAll('.section');
-        const bgLayer = document.querySelector('.background-layer');
-        const colors = [
-            { start: '#0a0a0a', end: '#1a2a3a' }, // Home
-            { start: '#1a2a3a', end: '#3a1a2a' }, // Work Experience
-            { start: '#3a1a2a', end: '#0a0a0a' }  // Contact
-        ];
-
-        sections.forEach((section, index) => {
-            gsap.from(section.children, {
-                opacity: 0,
-                y: 80,
-                scale: 0.95,
-                rotateX: 15,
-                duration: 1.5,
-                stagger: 0.2,
-                ease: 'power4.out',
-                scrollTrigger: {
-                    trigger: section,
-                    start: 'top 90%',
-                    toggleActions: 'play none none none'
-                }
-            });
-
-            if (!isMobile) {
-                gsap.to(section, {
-                    y: -50,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top bottom',
-                        end: 'bottom top',
-                        scrub: 1
-                    }
-                });
-            }
-
-            const currentColors = colors[index];
-            const nextColors = colors[index + 1] || colors[index];
-            ScrollTrigger.create({
-                trigger: section,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 2,
-                onUpdate: (self) => {
-                    const progress = self.progress;
-                    const interpolateColor = (start, end, t) => {
-                        const startRGB = hexToRGB(start);
-                        const endRGB = hexToRGB(end);
-                        const r = Math.round(startRGB.r + (endRGB.r - startRGB.r) * t);
-                        const g = Math.round(startRGB.g + (endRGB.g - startRGB.g) * t);
-                        const b = Math.round(startRGB.b + (endRGB.b - startRGB.b) * t);
-                        return `rgb(${r}, ${g}, ${b})`;
-                    };
-                    const hexToRGB = (hex) => {
-                        const r = parseInt(hex.slice(1, 3), 16);
-                        const g = parseInt(hex.slice(3, 5), 16);
-                        const b = parseInt(hex.slice(5, 7), 16);
-                        return { r, g, b };
-                    };
-                    const newStart = interpolateColor(currentColors.start, nextColors.start, progress);
-                    const newEnd = interpolateColor(currentColors.end, nextColors.end, progress);
-                    bgLayer.style.background = `linear-gradient(to bottom, ${newStart}, ${newEnd})`;
-                    gsap.to(bgLayer, {
-                        opacity: 0.7 + progress * 0.1,
-                        duration: 1,
-                        ease: 'power4.inOut'
-                    });
-                }
-            });
-        });
-
-        // Experience Card Animations
-        document.querySelectorAll('.experience-card').forEach(card => {
-            gsap.from(card, {
-                opacity: 0,
-                scale: 0.8,
-                rotateY: 15,
-                duration: 1.5,
-                ease: 'power4.out',
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 90%',
-                    toggleActions: 'play none none none'
-                }
-            });
-            if (!isMobile) {
-                card.addEventListener('mouseenter', () => {
-                    gsap.to(card, {
-                        scale: 1.05,
-                        rotateY: 5,
-                        boxShadow: '0 0 30px rgba(0, 255, 204, 0.5)',
-                        duration: 0.5,
-                        ease: 'power4.out'
-                    });
-                    gsap.to(card.querySelector('.experience-overlay'), {
-                        opacity: 1,
-                        duration: 0.4,
-                        ease: 'power4.in'
-                    });
-                });
-                card.addEventListener('mouseleave', () => {
-                    gsap.to(card, {
-                        scale: 1,
-                        rotateY: 0,
-                        boxShadow: '0 0 20px rgba(0, 255, 204, 0.2)',
-                        duration: 0.5,
-                        ease: 'power4.out'
-                    });
-                    gsap.to(card.querySelector('.experience-overlay'), {
-                        opacity: 0,
-                        duration: 0.4,
-                        ease: 'power4.out'
-                    });
-                });
-            } else {
-                card.addEventListener('touchstart', () => {
-                    gsap.to(card, {
-                        scale: 1.05,
-                        duration: 0.3,
-                        ease: 'power4.out'
-                    });
-                });
-                card.addEventListener('touchend', () => {
-                    gsap.to(card, {
-                        scale: 1,
-                        duration: 0.3,
-                        ease: 'power4.out'
-                    });
-                });
-            }
-        });
-
-        // Pin Contact Section with Scale Effect
-        gsap.to('#contact', {
-            scale: 1.02,
-            scrollTrigger: {
-                trigger: '#contact',
-                start: 'top top',
-                pin: true,
-                pinSpacing: false,
-                scrub: 1,
-                end: '+=200'
-            }
-        });
-    </script>
+  <div id="quote" class="section">
+    <div class="overlay">
+      <h1></h1>
+      <div class="divider"></div>
+      <p>"I would rather have questions that can’t be answered than answers that can’t be questioned."</p>
+      <p class="quote-author">— RICHARD FEYNMAN</p>
+    </div>
+  </div>
 </body>
 </html>
