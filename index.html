@@ -13,8 +13,8 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e0e6ed;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1f1f1f 100%);
+            color: #e0e0e0;
             line-height: 1.6;
             min-height: 100vh;
         }
@@ -30,10 +30,11 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(26, 26, 46, 0.95);
+            background: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .nav-container {
@@ -48,7 +49,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
-            background: linear-gradient(45deg, #64ffda, #00bcd4);
+            background: linear-gradient(45deg, #ffffff, #cccccc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -61,17 +62,18 @@
         }
 
         .nav-links a {
-            color: #e0e6ed;
+            color: #e0e0e0;
             text-decoration: none;
             transition: all 0.3s ease;
             padding: 0.5rem 1rem;
             border-radius: 8px;
             cursor: pointer;
+            font-weight: 500;
         }
 
         .nav-links a:hover, .nav-links a.active {
-            background: rgba(100, 255, 218, 0.1);
-            color: #64ffda;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
             transform: translateY(-2px);
         }
 
@@ -100,13 +102,13 @@
         .hero {
             text-align: center;
             padding: 4rem 0;
-            background: radial-gradient(circle at center, rgba(100, 255, 218, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
         }
 
         .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
-            background: linear-gradient(45deg, #64ffda, #00bcd4, #03a9f4);
+            background: linear-gradient(45deg, #ffffff, #cccccc, #999999);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -114,7 +116,7 @@
 
         .hero p {
             font-size: 1.2rem;
-            color: #b0bec5;
+            color: #b0b0b0;
             margin-bottom: 2rem;
             max-width: 600px;
             margin-left: auto;
@@ -123,19 +125,107 @@
 
         .cta-button {
             display: inline-block;
-            background: linear-gradient(45deg, #64ffda, #00bcd4);
-            color: #0a0a0a;
+            background: linear-gradient(45deg, #333333, #1a1a1a);
+            color: white;
             padding: 1rem 2rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .cta-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(100, 255, 218, 0.4);
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Quote Section */
+        .quote-section {
+            position: relative;
+            padding: 6rem 0;
+            margin: 4rem 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(20, 20, 20, 0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23ffffff;stop-opacity:0.1" /><stop offset="100%" style="stop-color:%23cccccc;stop-opacity:0.3" /></linearGradient></defs><rect width="1200" height="600" fill="url(%23grad1)"/><circle cx="200" cy="150" r="2" fill="%23ffffff" opacity="0.3"/><circle cx="800" cy="300" r="3" fill="%23ffffff" opacity="0.2"/><circle cx="1000" cy="100" r="1" fill="%23ffffff" opacity="0.4"/><circle cx="400" cy="450" r="2" fill="%23ffffff" opacity="0.3"/></svg>');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+
+        .quote-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quote-text {
+            font-size: 2rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .quote-author {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 4rem 0;
+            text-align: center;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 20px;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-section p {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #333333, #1a1a1a);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         /* Skills Page */
@@ -147,71 +237,90 @@
         }
 
         .skill-category {
-            background: rgba(26, 26, 46, 0.6);
+            background: rgba(30, 30, 30, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             padding: 2rem;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .skill-category:hover {
             transform: translateY(-5px);
-            border-color: rgba(100, 255, 218, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .skill-category h3 {
-            color: #64ffda;
+            color: #e0e0e0;
             margin-bottom: 1rem;
             font-size: 1.3rem;
         }
 
         .skill-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+            gap: 1rem;
         }
 
-        .skill-bar {
-            width: 60%;
+        .skill-icon {
+            width: 8px;
             height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
         }
 
-        .skill-progress {
-            height: 100%;
-            background: linear-gradient(90deg, #64ffda, #00bcd4);
-            border-radius: 4px;
-            transition: width 1s ease-in-out;
+        .skill-icon::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .skill-name {
+            flex: 1;
+            color: #e0e0e0;
+        }
+
+        .skill-level {
+            font-size: 0.9rem;
+            color: #999999;
+            font-weight: 500;
         }
 
         /* Blog/Thoughts Page */
         .blog-post {
-            background: rgba(26, 26, 46, 0.6);
+            background: rgba(30, 30, 30, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             padding: 2rem;
             margin-bottom: 2rem;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .blog-post:hover {
             transform: translateY(-3px);
-            border-color: rgba(100, 255, 218, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .blog-post h3 {
-            color: #64ffda;
+            color: #e0e0e0;
             margin-bottom: 0.5rem;
         }
 
         .blog-meta {
-            color: #78909c;
+            color: #999999;
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
@@ -231,22 +340,45 @@
         .profile-placeholder {
             width: 250px;
             height: 250px;
-            background: linear-gradient(45deg, #64ffda, #00bcd4);
+            background: linear-gradient(45deg, #333333, #1a1a1a);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 4rem;
-            color: #0a0a0a;
+            color: white;
             margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        .profile-placeholder::after {
+            content: 'Add Photo';
+            position: absolute;
+            bottom: 30px;
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
 
         .about-text {
-            background: rgba(26, 26, 46, 0.6);
+            background: rgba(30, 30, 30, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             padding: 2rem;
             backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* Books Page */
@@ -258,39 +390,54 @@
         }
 
         .book-card {
-            background: rgba(26, 26, 46, 0.6);
+            background: rgba(30, 30, 30, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             padding: 1.5rem;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .book-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(100, 255, 218, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .book-cover {
             width: 120px;
             height: 180px;
-            background: linear-gradient(45deg, #1a1a2e, #16213e);
-            border: 2px solid rgba(100, 255, 218, 0.3);
+            background: linear-gradient(45deg, #2a2a2a, #404040);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
             margin: 0 auto 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #64ffda;
+            color: #e0e0e0;
             font-size: 0.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
         }
 
         .section-title {
             font-size: 2.5rem;
             text-align: center;
             margin-bottom: 3rem;
-            background: linear-gradient(45deg, #64ffda, #00bcd4);
+            background: linear-gradient(45deg, #ffffff, #cccccc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -304,6 +451,15 @@
 
             .hero h1 {
                 font-size: 2.5rem;
+            }
+
+            .quote-text {
+                font-size: 1.5rem;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
             }
 
             .about-content {
@@ -322,11 +478,11 @@
         <div class="nav-container">
             <div class="logo">Caden Ice</div>
             <ul class="nav-links">
-                <li><a href="#" onclick="showPage('home')" class="active">Home</a></li>
-                <li><a href="#" onclick="showPage('skills')">Skills</a></li>
-                <li><a href="#" onclick="showPage('thoughts')">Thoughts</a></li>
-                <li><a href="#" onclick="showPage('about')">About</a></li>
-                <li><a href="#" onclick="showPage('books')">Books</a></li>
+                <li><a href="#" data-page="home" class="active">Home</a></li>
+                <li><a href="#" data-page="skills">Skills</a></li>
+                <li><a href="#" data-page="thoughts">Thoughts</a></li>
+                <li><a href="#" data-page="about">About</a></li>
+                <li><a href="#" data-page="books">Books</a></li>
             </ul>
         </div>
     </nav>
@@ -338,7 +494,31 @@
                 <div class="hero">
                     <h1>Hello, I'm Caden Ice</h1>
                     <p>Passionate developer, creative thinker, and lifelong learner. I build innovative solutions and share insights about technology, design, and the future of digital experiences.</p>
-                    <a href="#" onclick="showPage('about')" class="cta-button">Get to Know Me</a>
+                    <a href="#" data-page="about" class="cta-button">Get to Know Me</a>
+                </div>
+
+                <!-- Quote Section -->
+                <div class="quote-section">
+                    <div class="quote-content">
+                        <div class="quote-text">
+                            "The best way to predict the future is to create it."
+                        </div>
+                        <div class="quote-author">
+                            — Abraham Lincoln
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Section -->
+                <div class="contact-section">
+                    <h2>Let's Connect</h2>
+                    <p>I'm always excited to collaborate on new projects, discuss innovative ideas, or simply connect with fellow creators and thinkers. Whether you have a project in mind or just want to say hello, I'd love to hear from you.</p>
+                    <div class="contact-buttons">
+                        <a href="mailto:caden@example.com" class="contact-btn">Email Me</a>
+                        <a href="https://linkedin.com/in/cadenice" class="contact-btn">LinkedIn</a>
+                        <a href="https://github.com/cadenice" class="contact-btn">GitHub</a>
+                        <a href="tel:+1234567890" class="contact-btn">Call Me</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -351,58 +531,70 @@
                     <div class="skill-category">
                         <h3>Frontend Development</h3>
                         <div class="skill-item">
-                            <span>React</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">React</span>
+                            <span class="skill-level">Expert</span>
                         </div>
                         <div class="skill-item">
-                            <span>JavaScript</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">JavaScript</span>
+                            <span class="skill-level">Advanced</span>
                         </div>
                         <div class="skill-item">
-                            <span>TypeScript</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 80%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">TypeScript</span>
+                            <span class="skill-level">Advanced</span>
                         </div>
                         <div class="skill-item">
-                            <span>CSS/SASS</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 88%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">CSS/SASS</span>
+                            <span class="skill-level">Expert</span>
                         </div>
                     </div>
                     <div class="skill-category">
                         <h3>Backend Development</h3>
                         <div class="skill-item">
-                            <span>Node.js</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 82%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">Node.js</span>
+                            <span class="skill-level">Advanced</span>
                         </div>
                         <div class="skill-item">
-                            <span>Python</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 75%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">Python</span>
+                            <span class="skill-level">Intermediate</span>
                         </div>
                         <div class="skill-item">
-                            <span>PostgreSQL</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 70%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">PostgreSQL</span>
+                            <span class="skill-level">Intermediate</span>
                         </div>
                         <div class="skill-item">
-                            <span>MongoDB</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 78%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">MongoDB</span>
+                            <span class="skill-level">Advanced</span>
                         </div>
                     </div>
                     <div class="skill-category">
                         <h3>Tools & Technologies</h3>
                         <div class="skill-item">
-                            <span>Git/GitHub</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 92%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">Git/GitHub</span>
+                            <span class="skill-level">Expert</span>
                         </div>
                         <div class="skill-item">
-                            <span>Docker</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 65%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">Docker</span>
+                            <span class="skill-level">Intermediate</span>
                         </div>
                         <div class="skill-item">
-                            <span>AWS</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 60%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">AWS</span>
+                            <span class="skill-level">Intermediate</span>
                         </div>
                         <div class="skill-item">
-                            <span>Figma</span>
-                            <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+                            <div class="skill-icon"></div>
+                            <span class="skill-name">Figma</span>
+                            <span class="skill-level">Advanced</span>
                         </div>
                     </div>
                 </div>
@@ -445,7 +637,7 @@
                         <div class="profile-placeholder">CI</div>
                     </div>
                     <div class="about-text">
-                        <h3 style="color: #64ffda; margin-bottom: 1rem;">Hello, I'm Caden Ice</h3>
+                        <h3 style="color: #e0e0e0; margin-bottom: 1rem;">Hello, I'm Caden Ice</h3>
                         <p>I'm a passionate full-stack developer with over 3 years of experience creating digital solutions that make a difference. My journey began with a simple curiosity about how websites work, and it has evolved into a deep love for crafting elegant, efficient, and user-centered applications.</p>
                         
                         <p>When I'm not coding, you'll find me exploring the latest tech trends, contributing to open-source projects, or sharing my knowledge through writing and mentoring. I believe in the power of technology to solve real-world problems and am always excited to collaborate on projects that have a positive impact.</p>
@@ -465,43 +657,43 @@
                 <div class="books-grid">
                     <div class="book-card">
                         <div class="book-cover">Clean Code</div>
-                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Clean Code</h4>
-                        <p style="font-size: 0.9rem; color: #b0bec5;">by Robert C. Martin</p>
+                        <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">Clean Code</h4>
+                        <p style="font-size: 0.9rem; color: #999999;">by Robert C. Martin</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">A masterpiece that transformed how I think about writing maintainable, readable code. Essential reading for any serious developer.</p>
                     </div>
                     
                     <div class="book-card">
                         <div class="book-cover">Atomic Habits</div>
-                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Atomic Habits</h4>
-                        <p style="font-size: 0.9rem; color: #b0bec5;">by James Clear</p>
+                        <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">Atomic Habits</h4>
+                        <p style="font-size: 0.9rem; color: #999999;">by James Clear</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">Revolutionary insights on building good habits and breaking bad ones. This book changed how I approach personal and professional growth.</p>
                     </div>
                     
                     <div class="book-card">
                         <div class="book-cover">The Design of Everyday Things</div>
-                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">The Design of Everyday Things</h4>
-                        <p style="font-size: 0.9rem; color: #b0bec5;">by Don Norman</p>
+                        <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">The Design of Everyday Things</h4>
+                        <p style="font-size: 0.9rem; color: #999999;">by Don Norman</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">Opened my eyes to the importance of user-centered design. Every developer should understand these principles.</p>
                     </div>
                     
                     <div class="book-card">
                         <div class="book-cover">Sapiens</div>
-                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Sapiens</h4>
-                        <p style="font-size: 0.9rem; color: #b0bec5;">by Yuval Noah Harari</p>
+                        <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">Sapiens</h4>
+                        <p style="font-size: 0.9rem; color: #999999;">by Yuval Noah Harari</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">A fascinating exploration of human history that provides valuable context for understanding technology's role in society.</p>
                     </div>
                     
                     <div class="book-card">
                         <div class="book-cover">You Don't Know JS</div>
-                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">You Don't Know JS</h4>
-                        <p style="font-size: 0.9rem; color: #b0bec5;">by Kyle Simpson</p>
+                        <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">You Don't Know JS</h4>
+                        <p style="font-size: 0.9rem; color: #999999;">by Kyle Simpson</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">Deep dive into JavaScript that revealed the elegant complexity beneath the surface. Essential for mastering the language.</p>
                     </div>
                     
                     <div class="book-card">
                         <div class="book-cover">Mindset</div>
-                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Mindset</h4>
-                        <p style="font-size: 0.9rem; color: #b0bec5;">by Carol S. Dweck</p>
+                        <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">Mindset</h4>
+                        <p style="font-size: 0.9rem; color: #999999;">by Carol S. Dweck</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">The power of believing you can improve. This book shaped my approach to learning and facing challenges in tech.</p>
                     </div>
                 </div>
@@ -509,7 +701,7 @@
         </div>
     </main>
 
-    <script>
+    <script defer>
         function showPage(pageId) {
             // Hide all pages
             const pages = document.querySelectorAll('.page');
@@ -521,30 +713,30 @@
             // Update navigation
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach(link => link.classList.remove('active'));
-            event.target.classList.add('active');
+            
+            // Find the clicked link and make it active
+            const clickedLink = document.querySelector(`[data-page="${pageId}"]`);
+            if (clickedLink) {
+                clickedLink.classList.add('active');
+            }
             
             // Smooth scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Add smooth scrolling and animation effects
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate skill bars when skills page is visible
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const skillBars = entry.target.querySelectorAll('.skill-progress');
-                        skillBars.forEach(bar => {
-                            bar.style.width = bar.style.width; // Trigger animation
-                        });
-                    }
-                });
+        // Attach event listeners to navigation links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default anchor behavior
+                const pageId = link.getAttribute('data-page');
+                showPage(pageId);
             });
+        });
 
-            const skillsPage = document.getElementById('skills');
-            if (skillsPage) {
-                observer.observe(skillsPage);
-            }
+        // Attach event listener to the "Get to Know Me" button
+        document.querySelector('.cta-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('about');
         });
     </script>
 </body>
