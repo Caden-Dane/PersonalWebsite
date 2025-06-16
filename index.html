@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caden Ice - Professional Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e6ed;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #64ffda, #00bcd4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #e0e6ed;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        .page {
+            display: none;
+            padding: 2rem 0;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: radial-gradient(circle at center, rgba(100, 255, 218, 0.1) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #64ffda, #00bcd4, #03a9f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #b0bec5;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #64ffda, #00bcd4);
+            color: #0a0a0a;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(100, 255, 218, 0.4);
+        }
+
+        /* Skills Page */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            background: rgba(26, 26, 46, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            border-color: rgba(100, 255, 218, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-category h3 {
+            color: #64ffda;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .skill-bar {
+            width: 60%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #64ffda, #00bcd4);
+            border-radius: 4px;
+            transition: width 1s ease-in-out;
+        }
+
+        /* Blog/Thoughts Page */
+        .blog-post {
+            background: rgba(26, 26, 46, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .blog-post:hover {
+            transform: translateY(-3px);
+            border-color: rgba(100, 255, 218, 0.3);
+        }
+
+        .blog-post h3 {
+            color: #64ffda;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-meta {
+            color: #78909c;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* About Page */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .profile-placeholder {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(45deg, #64ffda, #00bcd4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #0a0a0a;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            background: rgba(26, 26, 46, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Books Page */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .book-card {
+            background: rgba(26, 26, 46, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(100, 255, 218, 0.3);
+        }
+
+        .book-cover {
+            width: 120px;
+            height: 180px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            border: 2px solid rgba(100, 255, 218, 0.3);
+            border-radius: 8px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64ffda;
+            font-size: 0.8rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #64ffda, #00bcd4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Caden Ice</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')" class="active">Home</a></li>
+                <li><a href="#" onclick="showPage('skills')">Skills</a></li>
+                <li><a href="#" onclick="showPage('thoughts')">Thoughts</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('books')">Books</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <div class="container">
+                <div class="hero">
+                    <h1>Hello, I'm Caden Ice</h1>
+                    <p>Passionate developer, creative thinker, and lifelong learner. I build innovative solutions and share insights about technology, design, and the future of digital experiences.</p>
+                    <a href="#" onclick="showPage('about')" class="cta-button">Get to Know Me</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Page -->
+        <div id="skills" class="page">
+            <div class="container">
+                <h2 class="section-title">My Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Frontend Development</h3>
+                        <div class="skill-item">
+                            <span>React</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <span>JavaScript</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <span>TypeScript</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 80%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <span>CSS/SASS</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 88%"></div></div>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Backend Development</h3>
+                        <div class="skill-item">
+                            <span>Node.js</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 82%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Python</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 75%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <span>PostgreSQL</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 70%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <span>MongoDB</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 78%"></div></div>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Tools & Technologies</h3>
+                        <div class="skill-item">
+                            <span>Git/GitHub</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 92%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Docker</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 65%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <span>AWS</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 60%"></div></div>
+                        </div>
+                        <div class="skill-item">
+                            <span>Figma</span>
+                            <div class="skill-bar"><div class="skill-progress" style="width: 85%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thoughts/Blog Page -->
+        <div id="thoughts" class="page">
+            <div class="container">
+                <h2 class="section-title">My Thoughts</h2>
+                <article class="blog-post">
+                    <h3>The Future of Web Development in 2025</h3>
+                    <div class="blog-meta">Published on March 15, 2025 • 5 min read</div>
+                    <p>As we move deeper into 2025, the landscape of web development continues to evolve at a rapid pace. From the rise of AI-assisted coding to the increasing importance of web performance, developers need to stay ahead of the curve...</p>
+                    <p>In this post, I explore the key trends shaping our industry and share practical insights on how to adapt your skills for the future.</p>
+                </article>
+                
+                <article class="blog-post">
+                    <h3>Building Accessible User Interfaces: A Developer's Guide</h3>
+                    <div class="blog-meta">Published on February 28, 2025 • 8 min read</div>
+                    <p>Accessibility isn't just a nice-to-have feature—it's a fundamental aspect of good web development. Yet many developers still struggle with implementing proper accessibility features in their applications.</p>
+                    <p>This comprehensive guide walks through practical strategies for creating inclusive digital experiences that work for everyone.</p>
+                </article>
+                
+                <article class="blog-post">
+                    <h3>My Journey from Beginner to Professional Developer</h3>
+                    <div class="blog-meta">Published on January 20, 2025 • 6 min read</div>
+                    <p>Three years ago, I wrote my first line of code. Today, I'm building complex applications and contributing to open-source projects. The journey hasn't been easy, but it's been incredibly rewarding.</p>
+                    <p>Here's what I've learned about persistence, continuous learning, and finding your place in the tech community.</p>
+                </article>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div id="about" class="page">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <div class="about-image">
+                        <div class="profile-placeholder">CI</div>
+                    </div>
+                    <div class="about-text">
+                        <h3 style="color: #64ffda; margin-bottom: 1rem;">Hello, I'm Caden Ice</h3>
+                        <p>I'm a passionate full-stack developer with over 3 years of experience creating digital solutions that make a difference. My journey began with a simple curiosity about how websites work, and it has evolved into a deep love for crafting elegant, efficient, and user-centered applications.</p>
+                        
+                        <p>When I'm not coding, you'll find me exploring the latest tech trends, contributing to open-source projects, or sharing my knowledge through writing and mentoring. I believe in the power of technology to solve real-world problems and am always excited to collaborate on projects that have a positive impact.</p>
+                        
+                        <p>My approach combines technical expertise with creative problem-solving, always keeping the end user's experience at the forefront of every decision. I'm particularly interested in the intersection of design and development, where beautiful interfaces meet robust functionality.</p>
+                        
+                        <p>Currently based in San Francisco, I'm open to new opportunities and collaborations. Feel free to reach out if you'd like to work together or just chat about technology, books, or the future of digital experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Books Page -->
+        <div id="books" class="page">
+            <div class="container">
+                <h2 class="section-title">Books That Shaped Me</h2>
+                <div class="books-grid">
+                    <div class="book-card">
+                        <div class="book-cover">Clean Code</div>
+                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Clean Code</h4>
+                        <p style="font-size: 0.9rem; color: #b0bec5;">by Robert C. Martin</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">A masterpiece that transformed how I think about writing maintainable, readable code. Essential reading for any serious developer.</p>
+                    </div>
+                    
+                    <div class="book-card">
+                        <div class="book-cover">Atomic Habits</div>
+                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Atomic Habits</h4>
+                        <p style="font-size: 0.9rem; color: #b0bec5;">by James Clear</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">Revolutionary insights on building good habits and breaking bad ones. This book changed how I approach personal and professional growth.</p>
+                    </div>
+                    
+                    <div class="book-card">
+                        <div class="book-cover">The Design of Everyday Things</div>
+                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">The Design of Everyday Things</h4>
+                        <p style="font-size: 0.9rem; color: #b0bec5;">by Don Norman</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">Opened my eyes to the importance of user-centered design. Every developer should understand these principles.</p>
+                    </div>
+                    
+                    <div class="book-card">
+                        <div class="book-cover">Sapiens</div>
+                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Sapiens</h4>
+                        <p style="font-size: 0.9rem; color: #b0bec5;">by Yuval Noah Harari</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">A fascinating exploration of human history that provides valuable context for understanding technology's role in society.</p>
+                    </div>
+                    
+                    <div class="book-card">
+                        <div class="book-cover">You Don't Know JS</div>
+                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">You Don't Know JS</h4>
+                        <p style="font-size: 0.9rem; color: #b0bec5;">by Kyle Simpson</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">Deep dive into JavaScript that revealed the elegant complexity beneath the surface. Essential for mastering the language.</p>
+                    </div>
+                    
+                    <div class="book-card">
+                        <div class="book-cover">Mindset</div>
+                        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Mindset</h4>
+                        <p style="font-size: 0.9rem; color: #b0bec5;">by Carol S. Dweck</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem;">The power of believing you can improve. This book shaped my approach to learning and facing challenges in tech.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Add smooth scrolling and animation effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate skill bars when skills page is visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const skillBars = entry.target.querySelectorAll('.skill-progress');
+                        skillBars.forEach(bar => {
+                            bar.style.width = bar.style.width; // Trigger animation
+                        });
+                    }
+                });
+            });
+
+            const skillsPage = document.getElementById('skills');
+            if (skillsPage) {
+                observer.observe(skillsPage);
+            }
+        });
+    </script>
+</body>
+</html>
