@@ -471,6 +471,69 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* Individual Blog Post Pages */
+.blog-post-page {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.blog-post-full {
+    background: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 3rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.blog-post-full h1 {
+    color: #e0e0e0;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    line-height: 1.2;
+}
+
+.blog-post-full .blog-meta {
+    color: #999999;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.blog-post-full p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    color: #e0e0e0;
+}
+
+.back-to-thoughts {
+    display: inline-block;
+    background: linear-gradient(45deg, #333333, #1a1a1a);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 2rem;
+}
+
+.back-to-thoughts:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.blog-post {
+    cursor: pointer;
+}
+
+.blog-post:hover h3 {
+    color: #ffffff;
+}
     </style>
 </head>
 <body>
@@ -711,45 +774,150 @@
                 </div>
             </div>
         </div>
+        <!-- Individual Blog Post Pages -->
+<div id="post-web-development-2025" class="page">
+    <div class="container">
+        <div class="blog-post-page">
+            <a href="#" data-page="thoughts" class="back-to-thoughts">← Back to Thoughts</a>
+            <article class="blog-post-full">
+                <h1>The Future of Web Development in 2025</h1>
+                <div class="blog-meta">Published on March 15, 2025 • 5 min read</div>
+                
+                <p>As we move deeper into 2025, the landscape of web development continues to evolve at a rapid pace. The integration of artificial intelligence into our development workflows has become not just a luxury, but a necessity for staying competitive in the field.</p>
+                
+                <p>One of the most significant trends I've observed is the rise of AI-assisted coding tools. These aren't just simple autocomplete features anymore—they're sophisticated systems that can understand context, suggest entire code blocks, and even help with debugging complex issues. As developers, we need to learn how to work alongside these tools rather than being replaced by them.</p>
+                
+                <p>Web performance has also taken center stage. With Core Web Vitals becoming increasingly important for SEO rankings, developers can no longer afford to ignore the performance implications of their code. This means rethinking how we approach everything from image optimization to JavaScript bundling.</p>
+                
+                <p>The future belongs to developers who can adapt quickly, embrace new technologies, and maintain a balance between leveraging AI assistance and developing their core programming skills. The key is to use these tools to enhance our capabilities, not replace our critical thinking.</p>
+                
+                <p>Looking ahead, I believe we'll see even more integration between development tools and AI, better performance optimization techniques, and a continued focus on creating accessible, inclusive web experiences. The developers who thrive will be those who stay curious and keep learning.</p>
+            </article>
+        </div>
+    </div>
+</div>
+
+<div id="post-accessible-ui" class="page">
+    <div class="container">
+        <div class="blog-post-page">
+            <a href="#" data-page="thoughts" class="back-to-thoughts">← Back to Thoughts</a>
+            <article class="blog-post-full">
+                <h1>Building Accessible User Interfaces: A Developer's Guide</h1>
+                <div class="blog-meta">Published on February 28, 2025 • 8 min read</div>
+                
+                <p>Accessibility isn't just a nice-to-have feature—it's a fundamental aspect of good web development. Yet many developers still struggle with implementing proper accessibility features in their applications. This often stems from a lack of understanding about what accessibility really means and how to implement it effectively.</p>
+                
+                <p>When I first started developing, I'll admit that accessibility was an afterthought. I focused on making things look good and function well for the majority of users, without considering those who might interact with my applications differently. This changed when I had the opportunity to observe someone using a screen reader to navigate a website I had built.</p>
+                
+                <p>The experience was eye-opening. What seemed like a simple, intuitive interface to me was confusing and frustrating for someone relying on assistive technology. That's when I realized that true accessibility isn't about checking boxes—it's about creating inclusive experiences that work for everyone.</p>
+                
+                <p>Here are the key principles I've learned to follow: Always use semantic HTML elements, provide meaningful alt text for images, ensure proper color contrast ratios, make all interactive elements keyboard accessible, and test with actual assistive technologies whenever possible.</p>
+                
+                <p>The business case for accessibility is strong too. Not only does it open your product to a wider audience, but it often results in better overall user experience for everyone. Many accessibility features that help users with disabilities also improve usability for all users.</p>
+                
+                <p>Start small, but start today. Pick one accessibility principle and implement it consistently across your projects. Build from there. Your users—all of them—will thank you.</p>
+            </article>
+        </div>
+    </div>
+</div>
+
+<div id="post-developer-journey" class="page">
+    <div class="container">
+        <div class="blog-post-page">
+            <a href="#" data-page="thoughts" class="back-to-thoughts">← Back to Thoughts</a>
+            <article class="blog-post-full">
+                <h1>My Journey from Beginner to Professional Developer</h1>
+                <div class="blog-meta">Published on January 20, 2025 • 6 min read</div>
+                
+                <p>Three years ago, I wrote my first line of code. It was a simple "Hello, World!" program in Java, and I remember the excitement I felt when those words appeared on my screen. Today, I'm building complex applications with Spring Boot, working with databases, and contributing to meaningful projects. The journey hasn't been easy, but it's been incredibly rewarding.</p>
+                
+                <p>The biggest challenge I faced early on wasn't learning syntax or understanding algorithms—it was overcoming imposter syndrome. Every time I looked at other developers' work, I felt like I was miles behind. I questioned whether I was smart enough, whether I was learning fast enough, whether I belonged in this field at all.</p>
+                
+                <p>What changed everything was shifting my mindset from comparison to growth. Instead of measuring myself against others, I started tracking my own progress. I kept a learning journal, celebrated small wins, and focused on being better than I was yesterday rather than being better than someone else.</p>
+                
+                <p>The technical skills came with time and practice. I learned Java, then Spring Boot, then PostgreSQL. Each new technology built on the last, creating a foundation that grows stronger with each project. But the soft skills—problem-solving, communication, persistence—these turned out to be just as important as the code itself.</p>
+                
+                <p>One of the most valuable lessons I learned was the importance of community. The development community is incredibly welcoming and supportive. Whether it's Stack Overflow, local meetups, or online forums, there are always people willing to help and share their knowledge.</p>
+                
+                <p>To anyone just starting their journey: be patient with yourself, embrace the struggle, and remember that every expert was once a beginner. The path isn't always clear, but if you keep moving forward, you'll be amazed at how far you can go.</p>
+            </article>
+        </div>
+    </div>
+</div>
     </main>
 
-    <script defer>
-        function showPage(pageId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
-            
-            // Show selected page
-            document.getElementById(pageId).classList.add('active');
-            
-            // Update navigation
+   <script defer>
+    function showPage(pageId) {
+        // Hide all pages
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(page => page.classList.remove('active'));
+        
+        // Show selected page
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+            targetPage.classList.add('active');
+        }
+        
+        // Update navigation only for main nav pages
+        const mainPages = ['home', 'skills', 'thoughts', 'about', 'books'];
+        if (mainPages.includes(pageId)) {
             const navLinks = document.querySelectorAll('.nav-links a');
             navLinks.forEach(link => link.classList.remove('active'));
             
-            // Find the clicked link and make it active
             const clickedLink = document.querySelector(`[data-page="${pageId}"]`);
             if (clickedLink) {
                 clickedLink.classList.add('active');
             }
-            
-            // Smooth scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        
+        // Smooth scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-        // Attach event listeners to navigation links
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault(); // Prevent default anchor behavior
-                const pageId = link.getAttribute('data-page');
-                showPage(pageId);
-            });
-        });
-
-        // Attach event listener to the "Get to Know Me" button
-        document.querySelector('.cta-button').addEventListener('click', (e) => {
+    // Attach event listeners to navigation links
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', (e) => {
             e.preventDefault();
-            showPage('about');
+            const pageId = link.getAttribute('data-page');
+            showPage(pageId);
         });
-    </script>
+    });
+
+    // Attach event listener to the "Get to Know Me" button
+    document.querySelector('.cta-button').addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage('about');
+    });
+
+    // Attach event listeners to blog posts
+    document.addEventListener('click', (e) => {
+        const blogPost = e.target.closest('.blog-post');
+        if (blogPost) {
+            const title = blogPost.querySelector('h3').textContent;
+            let pageId;
+            
+            // Map blog post titles to page IDs
+            if (title.includes('Future of Web Development')) {
+                pageId = 'post-web-development-2025';
+            } else if (title.includes('Accessible User Interfaces')) {
+                pageId = 'post-accessible-ui';
+            } else if (title.includes('Journey from Beginner')) {
+                pageId = 'post-developer-journey';
+            }
+            
+            if (pageId) {
+                showPage(pageId);
+            }
+        }
+    });
+
+    // Attach event listeners to back to thoughts buttons
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('back-to-thoughts')) {
+            e.preventDefault();
+            showPage('thoughts');
+        }
+    });
+</script>
 </body>
 </html>
