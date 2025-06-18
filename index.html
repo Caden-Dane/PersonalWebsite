@@ -393,23 +393,19 @@
             text-align: center;
         }
 
-        .profile-placeholder {
+        /* Fixed Profile Photo Styles */
+        .profile-container {
             width: 250px;
             height: 250px;
-            background: linear-gradient(45deg, #333333, #1a1a1a);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: white;
             margin: 0 auto;
             position: relative;
             overflow: hidden;
             border: 2px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(45deg, #333333, #1a1a1a);
         }
 
-        .profile-placeholder::before {
+        .profile-container::before {
             content: '';
             position: absolute;
             top: 20px;
@@ -418,12 +414,35 @@
             bottom: 20px;
             border: 2px dashed rgba(255, 255, 255, 0.3);
             border-radius: 50%;
+            z-index: 1;
         }
 
-        .profile-placeholder::after {
-            content: 'Add Photo';
+        .profile-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Fallback placeholder when image fails to load */
+        .profile-container .placeholder-content {
             position: absolute;
-            bottom: 30px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 3;
+            color: white;
+        }
+
+        .profile-container .placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .profile-container .placeholder-text {
             font-size: 0.9rem;
             opacity: 0.7;
         }
@@ -590,50 +609,6 @@
 .blog-post:hover h3 {
     color: #ffffff;
 }
-.profile-placeholder,
-.profile-image {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.profile-placeholder::before,
-.profile-image::before {
-    content: '';
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
-    border: 2px dashed rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-}
-
-.profile-placeholder::after {
-    content: 'Add Photo';
-    position: absolute;
-    bottom: 30px;
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-
-.profile-image::after {
-    content: none; /* Remove the 'Add Photo' text for the image */
-}
-
-.profile-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures the image fills the circle without distortion */
-    border-radius: 50%; /* Maintains the circular shape */
-}
     </style>
 </head>
 <body>
@@ -776,21 +751,8 @@
                  <article class="blog-post">
                     <h3>Why Remember?</h3>
                     <div class="blog-meta">Published on June 17, 2025 • 2 min read</div>
-                      <p>Why remember? We use our memories as a function, a way to accomplish something, like a quiet thread that binds together everything we value. A face recalled, a name recognized: these moments of memory create the web of relationship and connection. For example, the weight of a birthday, or other small detail, remembered is heavier than it seems. It declares, “You matter to me”, without words to explain it.</p>
+                      <p>Why remember? We use our memories as a function, a way to accomplish something, like a quiet thread that binds together everything we value. A face recalled, a name recognized: these moments of memory create the web of relationship and connection. For example, the weight of a birthday, or other small detail, remembered is heavier than it seems. It declares, "You matter to me", without words to explain it.</p>
                 </article>
-<!--                 <article class="blog-post">
-                    <h3>The Future of Web Development in 2025</h3>
-                    <div class="blog-meta">Published on March 15, 2025 • 5 min read</div>
-                    <p>As we move deeper into 2025, the landscape of web development continues to evolve at a rapid pace. From the rise of AI-assisted coding to the increasing importance of web performance, developers need to stay ahead of the curve...</p>
-                    <p>In this post, I explore the key trends shaping our industry and share practical insights on how to adapt your skills for the future.</p>
-                </article> -->
-                
-<!--                 <article class="blog-post">
-                    <h3>My Journey from Beginner to Professional Developer</h3>
-                    <div class="blog-meta">Published on January 20, 2025 • 6 min read</div>
-                    <p>Three years ago, I wrote my first line of code. Today, I'm building complex applications and contributing to open-source projects. The journey hasn't been easy, but it's been incredibly rewarding.</p>
-                    <p>Here's what I've learned about persistence, continuous learning, and finding your place in the tech community.</p>
-                </article> -->
             </div>
         </div>
 
@@ -800,17 +762,25 @@
         <h2 class="section-title">About Me</h2>
         <div class="about-content">
             <div class="about-image">
-                <img src="images/image.jpg" alt="Caden Ice Profile" class="profile-image">
+                <div class="profile-container">
+                    <img src="https://via.placeholder.com/250x250/2d2d2d/ffffff?text=Caden+Ice" 
+                         alt="Caden Ice Profile" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="placeholder-content" style="display: none;">
+                        <div class="placeholder-icon">👨‍💻</div>
+                        <div class="placeholder-text">Profile Photo</div>
+                    </div>
+                </div>
             </div>
             <div class="about-text">
                 <h3 style="color: #e0e0e0; margin-bottom: 1rem;">Hello, I'm Caden Ice</h3>
-                <p>Hey, I’m Caden Ice — a developer, nature enthusiast, and someone who’s always looking to build something of their own.</p>
+                <p>Hey, I'm Caden Ice — a developer, nature enthusiast, and someone who's always looking to build something of their own.</p>
                 
-                <p>I’m a senior at the University of North Texas studying Computer Information Systems, and I’ve been diving deep into backend development with Java and Spring Boot.</p>
+                <p>I'm a senior at the University of North Texas studying Computer Information Systems, and I've been diving deep into backend development with Java and Spring Boot.</p>
                 
-                <p>I’ve got an entrepreneurial mindset and a long-term goal of creating something meaningful and scalable. Outside of tech, you’ll probably find me out in nature — the mountains of Colorado are my favorite place to reset and get inspired.</p>
+                <p>I've got an entrepreneurial mindset and a long-term goal of creating something meaningful and scalable. Outside of tech, you'll probably find me out in nature — the mountains of Colorado are my favorite place to reset and get inspired.</p>
                 
-                <p>I believe the best ideas come from a mix of curiosity, hard work, and being in the right headspace. If you're into building cool stuff or just swapping ideas, I’m always up for a conversation.</p>
+                <p>I believe the best ideas come from a mix of curiosity, hard work, and being in the right headspace. If you're into building cool stuff or just swapping ideas, I'm always up for a conversation.</p>
             </div>
         </div>
     </div>
