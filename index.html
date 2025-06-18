@@ -441,6 +441,212 @@
             color: #999999;
             font-weight: 500;
         }
+        /* Constellation Skills Layout */
+.skills-constellation {
+    position: relative;
+    min-height: 600px;
+    margin-top: 2rem;
+}
+
+.constellation-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.02) 0%, transparent 70%);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.skill-node {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    z-index: 10;
+}
+
+.skill-node.large .node-core {
+    width: 100px;
+    height: 100px;
+    font-size: 0.8rem;
+    line-height: 1.1;
+}
+
+.skill-node.medium .node-core {
+    width: 80px;
+    height: 80px;
+    font-size: 0.75rem;
+    line-height: 1.1;
+}
+
+.skill-node.small .node-core {
+    width: 65px;
+    height: 65px;
+    font-size: 0.7rem;
+    line-height: 1.1;
+}
+
+.node-core {
+    background: rgba(30, 30, 30, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e0e0e0;
+    font-weight: 600;
+    padding: 0.5rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+}
+
+.node-level {
+    font-size: 0.65rem;
+    color: #999999;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.25rem 0.5rem;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+.skill-node:hover .node-core {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.skill-node:hover .node-level {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.skill-node[data-category="development"] .node-core {
+    border-color: rgba(100, 150, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(100, 150, 255, 0.1);
+}
+
+.skill-node[data-category="soft"] .node-core {
+    border-color: rgba(255, 150, 100, 0.4);
+    box-shadow: 0 4px 15px rgba(255, 150, 100, 0.1);
+}
+
+.skill-node[data-category="tools"] .node-core {
+    border-color: rgba(150, 255, 150, 0.4);
+    box-shadow: 0 4px 15px rgba(150, 255, 150, 0.1);
+}
+
+.node-connections {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.connection {
+    position: absolute;
+    width: var(--length);
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
+    transform-origin: left center;
+    transform: translate(-50%, -50%) rotate(var(--angle));
+    opacity: 0.3;
+}
+
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    left: var(--x);
+    top: var(--y);
+    animation: float 8s ease-in-out infinite var(--delay);
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+    50% { transform: translate(20px, -20px) scale(1.2); opacity: 0.8; }
+}
+
+.skills-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #b0b0b0;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid;
+}
+
+.legend-dot.development {
+    border-color: rgba(100, 150, 255, 0.6);
+    background: rgba(100, 150, 255, 0.2);
+}
+
+.legend-dot.soft {
+    border-color: rgba(255, 150, 100, 0.6);
+    background: rgba(255, 150, 100, 0.2);
+}
+
+.legend-dot.tools {
+    border-color: rgba(150, 255, 150, 0.6);
+    background: rgba(150, 255, 150, 0.2);
+}
+
+@media (max-width: 768px) {
+    .constellation-container {
+        height: 400px;
+    }
+    
+    .skill-node.large .node-core {
+        width: 70px;
+        height: 70px;
+        font-size: 0.7rem;
+    }
+    
+    .skill-node.medium .node-core {
+        width: 60px;
+        height: 60px;
+        font-size: 0.65rem;
+    }
+    
+    .skill-node.small .node-core {
+        width: 50px;
+        height: 50px;
+        font-size: 0.6rem;
+    }
+    
+    .node-level {
+        font-size: 0.6rem;
+    }
+    
+    .connection {
+        opacity: 0.2;
+    }
+}
 
         /* Blog/Thoughts Page */
         .blog-post {
@@ -901,82 +1107,140 @@
         </div>
 
         <!-- Skills Page -->
-        <div id="skills" class="page">
-            <div class="container">
-                <h2 class="section-title">My Skills</h2>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Development</h3>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">Java</span>
-                            <span class="skill-level">Intermediate</span>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">PostgreSQL</span>
-                            <span class="skill-level">Intermediate</span>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">Spring Boot</span>
-                            <span class="skill-level">Intermediate</span>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">Hibernate JPA</span>
-                            <span class="skill-level">Intermediate</span>
-                        </div>
+<div id="skills" class="page">
+    <div class="container">
+        <h2 class="section-title">My Skills</h2>
+        <div class="skills-constellation">
+            <div class="constellation-container">
+                <!-- Development Skills -->
+                <div class="skill-node large" data-category="development" style="--x: 20%; --y: 25%;">
+                    <div class="node-core">Java</div>
+                    <div class="node-level">Intermediate</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 45deg; --length: 120px;"></div>
+                        <div class="connection" style="--angle: 135deg; --length: 100px;"></div>
                     </div>
-                    <div class="skill-category">
-                        <h3>Soft Skills</h3>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">Communication</span>
-                            <span class="skill-level">Constantly Improving</span>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">IQ</span>
-                            <span class="skill-level">Advanced</span>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">Time Management</span>
-                            <span class="skill-level">Excellent</span>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">Critical Thinking</span>
-                            <span class="skill-level">Excellent</span>
-                        </div>
+                </div>
+                
+                <div class="skill-node medium" data-category="development" style="--x: 35%; --y: 15%;">
+                    <div class="node-core">Spring Boot</div>
+                    <div class="node-level">Intermediate</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 225deg; --length: 120px;"></div>
+                        <div class="connection" style="--angle: 315deg; --length: 90px;"></div>
                     </div>
-                    <div class="skill-category">
-                        <h3>Tools & Technologies</h3>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">Microsoft 365 Tools</span>
-                            <span class="skill-level">Very Confident</span>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">Salesforce</span>
-                            <span class="skill-level">Learning</span>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">Postman</span>
-                            <span class="skill-level">Confident</span>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-icon"></div>
-                            <span class="skill-name">Jira</span>
-                            <span class="skill-level">Learning</span>
-                        </div>
+                </div>
+                
+                <div class="skill-node medium" data-category="development" style="--x: 15%; --y: 45%;">
+                    <div class="node-core">PostgreSQL</div>
+                    <div class="node-level">Intermediate</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 315deg; --length: 100px;"></div>
                     </div>
+                </div>
+                
+                <div class="skill-node small" data-category="development" style="--x: 45%; --y: 35%;">
+                    <div class="node-core">Hibernate JPA</div>
+                    <div class="node-level">Intermediate</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 135deg; --length: 90px;"></div>
+                    </div>
+                </div>
+                
+                <!-- Soft Skills -->
+                <div class="skill-node large" data-category="soft" style="--x: 70%; --y: 20%;">
+                    <div class="node-core">IQ</div>
+                    <div class="node-level">Advanced</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 180deg; --length: 110px;"></div>
+                        <div class="connection" style="--angle: 225deg; --length: 130px;"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-node medium" data-category="soft" style="--x: 55%; --y: 25%;">
+                    <div class="node-core">Critical Thinking</div>
+                    <div class="node-level">Excellent</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 0deg; --length: 110px;"></div>
+                        <div class="connection" style="--angle: 270deg; --length: 100px;"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-node medium" data-category="soft" style="--x: 80%; --y: 45%;">
+                    <div class="node-core">Time Management</div>
+                    <div class="node-level">Excellent</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 45deg; --length: 130px;"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-node small" data-category="soft" style="--x: 60%; --y: 55%;">
+                    <div class="node-core">Communication</div>
+                    <div class="node-level">Constantly Improving</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 90deg; --length: 100px;"></div>
+                    </div>
+                </div>
+                
+                <!-- Tools & Technologies -->
+                <div class="skill-node large" data-category="tools" style="--x: 25%; --y: 70%;">
+                    <div class="node-core">Microsoft 365</div>
+                    <div class="node-level">Very Confident</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 30deg; --length: 140px;"></div>
+                        <div class="connection" style="--angle: 330deg; --length: 80px;"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-node medium" data-category="tools" style="--x: 45%; --y: 75%;">
+                    <div class="node-core">Postman</div>
+                    <div class="node-level">Confident</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 210deg; --length: 140px;"></div>
+                        <div class="connection" style="--angle: 60deg; --length: 90px;"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-node small" data-category="tools" style="--x: 60%; --y: 80%;">
+                    <div class="node-core">Salesforce</div>
+                    <div class="node-level">Learning</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 240deg; --length: 90px;"></div>
+                    </div>
+                </div>
+                
+                <div class="skill-node small" data-category="tools" style="--x: 15%; --y: 85%;">
+                    <div class="node-core">Jira</div>
+                    <div class="node-level">Learning</div>
+                    <div class="node-connections">
+                        <div class="connection" style="--angle: 150deg; --length: 80px;"></div>
+                    </div>
+                </div>
+                
+                <!-- Floating particles -->
+                <div class="particle" style="--x: 10%; --y: 10%; --delay: 0s;"></div>
+                <div class="particle" style="--x: 90%; --y: 15%; --delay: 2s;"></div>
+                <div class="particle" style="--x: 85%; --y: 85%; --delay: 4s;"></div>
+                <div class="particle" style="--x: 5%; --y: 95%; --delay: 6s;"></div>
+            </div>
+            
+            <div class="skills-legend">
+                <div class="legend-item">
+                    <div class="legend-dot development"></div>
+                    <span>Development</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot soft"></div>
+                    <span>Soft Skills</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot tools"></div>
+                    <span>Tools & Technologies</span>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
         <!-- Thoughts/Blog Page -->
         <div id="thoughts" class="page">
