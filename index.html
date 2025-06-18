@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Caden Ice - Professional Portfolio</title>
     <style>
         * {
@@ -17,12 +17,14 @@
             color: #e0e0e0;
             line-height: 1.6;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 16px;
         }
 
         /* Navigation */
@@ -41,13 +43,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 2rem;
+            padding: 0.75rem 1rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: bold;
             background: linear-gradient(45deg, #ffffff, #cccccc);
             -webkit-background-clip: text;
@@ -55,37 +57,87 @@
             background-clip: text;
         }
 
-        .nav-links {
+        .hamburger {
             display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 2px;
+            background: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        .nav-links {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            height: 100vh;
+            width: 70%;
+            max-width: 250px;
+            background: rgba(0, 0, 0, 0.98);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             list-style: none;
-            gap: 2rem;
+            transition: right 0.3s ease;
+            padding: 2rem;
+        }
+
+        .nav-links.active {
+            right: 0;
+        }
+
+        .nav-links li {
+            margin: 1rem 0;
         }
 
         .nav-links a {
             color: #e0e0e0;
             text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
+            font-size: 1.1rem;
+            padding: 0.75rem 1.5rem;
             border-radius: 8px;
-            cursor: pointer;
+            display: block;
+            text-align: center;
+            transition: all 0.3s ease;
             font-weight: 500;
+            min-height: 44px;
         }
 
-        .nav-links a:hover, .nav-links a.active {
+        .nav-links a:active, .nav-links a.active {
             background: rgba(255, 255, 255, 0.1);
             color: #ffffff;
-            transform: translateY(-2px);
         }
 
         /* Main Content */
         main {
-            margin-top: 80px;
-            min-height: calc(100vh - 80px);
+            margin-top: 60px;
+            min-height: calc(100vh - 60px);
         }
 
         .page {
             display: none;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
             animation: fadeIn 0.5s ease-in;
         }
 
@@ -94,31 +146,31 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Home Page */
         .hero {
             text-align: center;
-            padding: 4rem 0;
+            padding: 2rem 0;
             background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #ffffff, #cccccc, #999999);
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(45deg, #ffffff, #cccccc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #b0b0b0;
-            margin-bottom: 2rem;
-            max-width: 600px;
+            margin-bottom: 1.5rem;
+            max-width: 90%;
             margin-left: auto;
             margin-right: auto;
         }
@@ -127,122 +179,122 @@
             display: inline-block;
             background: linear-gradient(45deg, #333333, #1a1a1a);
             color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
             text-decoration: none;
             font-weight: bold;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 44px;
+            line-height: 1.2;
         }
 
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+        .cta-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
             border-color: rgba(255, 255, 255, 0.3);
         }
 
         /* Quote Section */
         .quote-section {
             position: relative;
-            padding: 6rem 0;
-            margin: 4rem 0;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(20, 20, 20, 0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23ffffff;stop-opacity:0.1" /><stop offset="100%" style="stop-color:%23cccccc;stop-opacity:0.3" /></linearGradient></defs><rect width="1200" height="600" fill="url(%23grad1)"/><circle cx="200" cy="150" r="2" fill="%23ffffff" opacity="0.3"/><circle cx="800" cy="300" r="3" fill="%23ffffff" opacity="0.2"/><circle cx="1000" cy="100" r="1" fill="%23ffffff" opacity="0.4"/><circle cx="400" cy="450" r="2" fill="%23ffffff" opacity="0.3"/></svg>');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            padding: 3rem 0;
+            margin: 2rem 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(20, 20, 20, 0.7));
             color: white;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            border-radius: 15px;
         }
 
         .quote-content {
-            max-width: 800px;
+            max-width: 90%;
             margin: 0 auto;
         }
 
         .quote-text {
-            font-size: 2rem;
+            font-size: 1.2rem;
             font-style: italic;
-            margin-bottom: 1rem;
-            line-height: 1.4;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
         }
 
         .quote-author {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             opacity: 0.9;
         }
+
         .quote-container {
-    transition: opacity 0.5s ease-in-out;
-}
+            transition: opacity 0.5s ease-in-out;
+        }
 
-.quote-container.fade-out {
-    opacity: 0;
-}
+        .quote-container.fade-out {
+            opacity: 0;
+        }
 
-.quote-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-}
+        .quote-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
 
-.quote-nav {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1.2rem;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .quote-nav {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.quote-nav:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: scale(1.1);
-}
+        .quote-nav:active {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: scale(0.95);
+        }
 
-.quote-dots {
-    display: flex;
-    gap: 0.5rem;
-}
+        .quote-dots {
+            display: flex;
+            gap: 0.4rem;
+        }
 
-.quote-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+        .quote-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-.quote-dot.active {
-    background: rgba(255, 255, 255, 0.8);
-    transform: scale(1.2);
-}
+        .quote-dot.active {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
 
         /* Contact Section */
         .contact-section {
-            padding: 4rem 0;
+            padding: 2rem 0;
             text-align: center;
             background: rgba(30, 30, 30, 0.8);
-            border-radius: 20px;
-            margin: 2rem 0;
+            border-radius: 15px;
+            margin: 1.5rem 0;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .contact-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
             background: linear-gradient(45deg, #ffffff, #cccccc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -250,80 +302,81 @@
         }
 
         .contact-section p {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             color: #b0b0b0;
-            margin-bottom: 2rem;
-            max-width: 600px;
+            margin-bottom: 1.5rem;
+            max-width: 90%;
             margin-left: auto;
             margin-right: auto;
         }
 
         .contact-buttons {
             display: flex;
-            gap: 1rem;
+            flex-direction: column;
+            gap: 0.75rem;
             justify-content: center;
-            flex-wrap: wrap;
         }
 
         .contact-btn {
             display: inline-block;
             background: linear-gradient(45deg, #333333, #1a1a1a);
             color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 30px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 44px;
+            line-height: 1.2;
         }
 
-        .contact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        .contact-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             border-color: rgba(255, 255, 255, 0.3);
         }
 
         /* Skills Page */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .skill-category {
             background: rgba(30, 30, 30, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 2rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .skill-category:hover {
-            transform: translateY(-5px);
+        .skill-category:active {
             border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .skill-category h3 {
             color: #e0e0e0;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
         }
 
         .skill-item {
             display: flex;
             align-items: center;
-            margin-bottom: 1rem;
-            gap: 1rem;
+            margin-bottom: 0.75rem;
+            gap: 0.75rem;
         }
 
         .skill-icon {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background: linear-gradient(45deg, #ffffff, #cccccc);
             border-radius: 50%;
             position: relative;
@@ -344,10 +397,11 @@
         .skill-name {
             flex: 1;
             color: #e0e0e0;
+            font-size: 0.95rem;
         }
 
         .skill-level {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #999999;
             font-weight: 500;
         }
@@ -356,47 +410,46 @@
         .blog-post {
             background: rgba(30, 30, 30, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
         }
 
-        .blog-post:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        .blog-post:active h3 {
+            color: #ffffff;
         }
 
         .blog-post h3 {
             color: #e0e0e0;
             margin-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
 
         .blog-meta {
             color: #999999;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
         }
 
         /* About Page */
         .about-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 3rem;
-            align-items: start;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
         }
 
         .about-image {
             text-align: center;
         }
 
-        /* Fixed Profile Photo Styles */
         .profile-container {
-            width: 250px;
-            height: 250px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             margin: 0 auto;
             position: relative;
@@ -408,10 +461,10 @@
         .profile-container::before {
             content: '';
             position: absolute;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            bottom: 20px;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
             border: 2px dashed rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             z-index: 1;
@@ -426,7 +479,6 @@
             z-index: 2;
         }
 
-        /* Fallback placeholder when image fails to load */
         .profile-container .placeholder-content {
             position: absolute;
             top: 50%;
@@ -438,61 +490,61 @@
         }
 
         .profile-container .placeholder-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .profile-container .placeholder-text {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             opacity: 0.7;
         }
 
         .about-text {
             background: rgba(30, 30, 30, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 2rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             backdrop-filter: blur(10px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
 
         /* Books Page */
         .books-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .book-card {
             background: rgba(30, 30, 30, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 1.5rem;
+            border-radius: 12px;
+            padding: 1.25rem;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .book-card:hover {
-            transform: translateY(-5px);
+        .book-card:active {
             border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .book-cover {
-            width: 120px;
-            height: 180px;
+            width: 100px;
+            height: 150px;
             background: linear-gradient(45deg, #2a2a2a, #404040);
             border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            margin: 0 auto 1rem;
+            border-radius: 6px;
+            margin: 0 auto 0.75rem;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #e0e0e0;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             position: relative;
             overflow: hidden;
         }
@@ -500,121 +552,264 @@
         .book-cover::before {
             content: '';
             position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
             border: 1px dashed rgba(255, 255, 255, 0.3);
             border-radius: 4px;
         }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             background: linear-gradient(45deg, #ffffff, #cccccc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
+        /* Individual Blog Post Pages */
+        .blog-post-page {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .blog-post-full {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .blog-post-full h1 {
+            color: #e0e0e0;
+            margin-bottom: 0.75rem;
+            font-size: 1.8rem;
+            line-height: 1.3;
+        }
+
+        .blog-post-full .blog-meta {
+            color: #999999;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .blog-post-full p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+        }
+
+        .back-to-thoughts {
+            display: inline-block;
+            background: linear-gradient(45deg, #333333, #1a1a1a);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 1.5rem;
+            min-height: 44px;
+            line-height: 1.2;
+        }
+
+        .back-to-thoughts:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
         /* Responsive Design */
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 24px;
+            }
+
+            .hamburger {
+                display: none;
+            }
+
             .nav-links {
-                gap: 1rem;
+                position: static;
+                height: auto;
+                width: auto;
+                background: none;
+                flex-direction: row;
+                padding: 0;
+                right: 0;
+            }
+
+            .nav-links li {
+                margin: 0 0.5rem;
+            }
+
+            .nav-links a {
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
             }
 
             .hero h1 {
                 font-size: 2.5rem;
             }
 
+            .hero p {
+                font-size: 1.1rem;
+                max-width: 600px;
+            }
+
             .quote-text {
                 font-size: 1.5rem;
             }
 
-            .contact-buttons {
-                flex-direction: column;
-                align-items: center;
+            .quote-author {
+                font-size: 1rem;
             }
 
-            .about-content {
-                grid-template-columns: 1fr;
-                text-align: center;
+            .contact-section h2 {
+                font-size: 2rem;
+            }
+
+            .contact-buttons {
+                flex-direction: row;
+                gap: 1rem;
             }
 
             .skills-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .about-content {
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 2rem;
+                text-align: left;
+            }
+
+            .about-text {
+                text-align: left;
+            }
+
+            .profile-container {
+                width: 200px;
+                height: 200px;
+            }
+
+            .books-grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            }
+
+            .blog-post-full h1 {
+                font-size: 2.2rem;
             }
         }
-        /* Individual Blog Post Pages */
-.blog-post-page {
-    max-width: 800px;
-    margin: 0 auto;
-}
 
-.blog-post-full {
-    background: rgba(30, 30, 30, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 3rem;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 12px;
+            }
 
-.blog-post-full h1 {
-    color: #e0e0e0;
-    margin-bottom: 1rem;
-    font-size: 2.5rem;
-    line-height: 1.2;
-}
+            .logo {
+                font-size: 1.1rem;
+            }
 
-.blog-post-full .blog-meta {
-    color: #999999;
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
+            .hero h1 {
+                font-size: 1.8rem;
+            }
 
-.blog-post-full p {
-    margin-bottom: 1.5rem;
-    line-height: 1.8;
-    color: #e0e0e0;
-}
+            .hero p {
+                font-size: 0.9rem;
+            }
 
-.back-to-thoughts {
-    display: inline-block;
-    background: linear-gradient(45deg, #333333, #1a1a1a);
-    color: white;
-    padding: 0.8rem 1.5rem;
-    border-radius: 30px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    margin-bottom: 2rem;
-}
+            .cta-button, .contact-btn, .back-to-thoughts {
+                padding: 0.65rem 1.25rem;
+                font-size: 0.9rem;
+            }
 
-.back-to-thoughts:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.3);
-}
+            .quote-text {
+                font-size: 1rem;
+            }
 
-.blog-post {
-    cursor: pointer;
-}
+            .quote-author {
+                font-size: 0.8rem;
+            }
 
-.blog-post:hover h3 {
-    color: #ffffff;
-}
+            .quote-nav {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+
+            .contact-section h2 {
+                font-size: 1.6rem;
+            }
+
+            .contact-section p {
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .skill-category h3 {
+                font-size: 1rem;
+            }
+
+            .skill-name, .skill-level {
+                font-size: 0.9rem;
+            }
+
+            .blog-post h3 {
+                font-size: 1rem;
+            }
+
+            .blog-meta {
+                font-size: 0.8rem;
+            }
+
+            .profile-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .book-cover {
+                width: 90px;
+                height: 135px;
+            }
+
+            .blog-post-full h1 {
+                font-size: 1.6rem;
+            }
+
+            .blog-post-full p {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
     <nav>
         <div class="nav-container">
             <div class="logo">Caden Ice</div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <ul class="nav-links">
                 <li><a href="#" data-page="home" class="active">Home</a></li>
                 <li><a href="#" data-page="skills">Skills</a></li>
@@ -635,26 +830,24 @@
                     <a href="#" data-page="about" class="cta-button">Get to Know Me</a>
                 </div>
 
-                <!-- Quote Section -->
-<div class="quote-section">
-    <div class="quote-content">
-        <div class="quote-container">
-            <div class="quote-text" id="quote-text">
-                "Our acts can be no wiser than our thoughts. Our thinking can be no wiser than our understanding."
-            </div>
-            <div class="quote-author" id="quote-author">
-                — George S. Clason
-            </div>
-        </div>
-        <div class="quote-controls">
-            <button class="quote-nav prev" id="prevQuote">‹</button>
-            <div class="quote-dots" id="quoteDots"></div>
-            <button class="quote-nav next" id="nextQuote">›</button>
-        </div>
-    </div>
-</div>
+                <div class="quote-section">
+                    <div class="quote-content">
+                        <div class="quote-container">
+                            <div class="quote-text" id="quote-text">
+                                "Our acts can be no wiser than our thoughts. Our thinking can be no wiser than our understanding."
+                            </div>
+                            <div class="quote-author" id="quote-author">
+                                — George S. Clason
+                            </div>
+                        </div>
+                        <div class="quote-controls">
+                            <button class="quote-nav prev" id="prevQuote">‹</button>
+                            <div class="quote-dots" id="quoteDots"></div>
+                            <button class="quote-nav next" id="nextQuote">›</button>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Contact Section -->
                 <div class="contact-section">
                     <h2>Let's Connect</h2>
                     <p>I'm always excited to collaborate on new projects, discuss innovative ideas, or simply connect with fellow creators and thinkers. Whether you have a project in mind or just want to say hello, I'd love to hear from you.</p>
@@ -672,7 +865,7 @@
                 <h2 class="section-title">My Skills</h2>
                 <div class="skills-grid">
                     <div class="skill-category">
-                        <h3>Developement</h3>
+                        <h3>Development</h3>
                         <div class="skill-item">
                             <div class="skill-icon"></div>
                             <span class="skill-name">Java</span>
@@ -748,43 +941,41 @@
         <div id="thoughts" class="page">
             <div class="container">
                 <h2 class="section-title">My Thoughts</h2>
-                 <article class="blog-post">
+                <article class="blog-post">
                     <h3>Why Remember?</h3>
                     <div class="blog-meta">Published on June 17, 2025 • 2 min read</div>
-                      <p>Why remember? We use our memories as a function, a way to accomplish something, like a quiet thread that binds together everything we value. A face recalled, a name recognized: these moments of memory create the web of relationship and connection. For example, the weight of a birthday, or other small detail, remembered is heavier than it seems. It declares, "You matter to me", without words to explain it.</p>
+                    <p>Why remember? We use our memories as a function, a way to accomplish something, like a quiet thread that binds together everything we value. A face recalled, a name recognized: these moments of memory create the web of relationship and connection. For example, the weight of a birthday, or other small detail, remembered is heavier than it seems. It declares, "You matter to me", without words to explain it.</p>
                 </article>
             </div>
         </div>
 
         <!-- About Page -->
-     <div id="about" class="page">
-    <div class="container">
-        <h2 class="section-title">About Me</h2>
-        <div class="about-content">
-            <div class="about-image">
-                <div class="profile-container">
-                    <img src="GOPR0141.JPG" 
-                         alt="Caden Ice Profile" 
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <div class="placeholder-content" style="display: none;">
-                        <div class="placeholder-icon">👨‍💻</div>
-                        <div class="placeholder-text">Profile Photo</div>
+        <div id="about" class="page">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-content">
+                    <div class="about-image">
+                        <div class="profile-container">
+                            <img src="GOPR0141.JPG" 
+                                 alt="Caden Ice Profile" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="placeholder-content" style="display: none;">
+                                <div class="placeholder-icon">👨‍💻</div>
+                                <div class="placeholder-text">Profile Photo</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-text">
+                        <h3 style="color: #e0e0e0; margin-bottom: 1rem;">Hello, I'm Caden Ice</h3>
+                        <p>Hey, I'm Caden Ice — a developer, nature enthusiast, and someone who's always looking to build something of their own.</p>
+                        <p>I'm a senior at the University of North Texas studying Computer Information Systems, and I've been diving deep into backend development with Java and Spring Boot.</p>
+                        <p>I've got an entrepreneurial mindset and a long-term goal of creating something meaningful and scalable. Outside of tech, you'll probably find me out in nature — the mountains of Colorado are my favorite place to reset and get inspired.</p>
+                        <p>I believe the best ideas come from a mix of curiosity, hard work, and being in the right headspace. If you're into building cool stuff or just swapping ideas, I'm always up for a conversation.</p>
                     </div>
                 </div>
             </div>
-            <div class="about-text">
-                <h3 style="color: #e0e0e0; margin-bottom: 1rem;">Hello, I'm Caden Ice</h3>
-                <p>Hey, I'm Caden Ice — a developer, nature enthusiast, and someone who's always looking to build something of their own.</p>
-                
-                <p>I'm a senior at the University of North Texas studying Computer Information Systems, and I've been diving deep into backend development with Java and Spring Boot.</p>
-                
-                <p>I've got an entrepreneurial mindset and a long-term goal of creating something meaningful and scalable. Outside of tech, you'll probably find me out in nature — the mountains of Colorado are my favorite place to reset and get inspired.</p>
-                
-                <p>I believe the best ideas come from a mix of curiosity, hard work, and being in the right headspace. If you're into building cool stuff or just swapping ideas, I'm always up for a conversation.</p>
-            </div>
         </div>
-    </div>
-</div>
+
         <!-- Books Page -->
         <div id="books" class="page">
             <div class="container">
@@ -796,49 +987,42 @@
                         <p style="font-size: 0.9rem; color: #999999;">by Robert Kiyosaki</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">Contrasts two perspectives on money—one from a financially struggling "poor dad" and one from a wealthy, financially savvy "rich dad"—to highlight how financial education, asset-building, and mindset shape wealth and success.</p>
                     </div>
-                    
                     <div class="book-card">
                         <div class="book-cover">Atomic Habits</div>
                         <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">Atomic Habits</h4>
                         <p style="font-size: 0.9rem; color: #999999;">by James Clear</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">Revolutionary insights on building good habits and breaking bad ones. This book changed how I approach personal and professional growth.</p>
                     </div>
-                    
                     <div class="book-card">
                         <div class="book-cover">The Richest Man in Babylon</div>
                         <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">The Richest Man in Babylon</h4>
                         <p style="font-size: 0.9rem; color: #999999;">by George Samuel Clason</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">Shares financial wisdom through parables set in ancient Babylon, emphasizing principles like saving consistently, living below your means, investing wisely, and seeking knowledgeable advice.</p>
                     </div>
-                    
                     <div class="book-card">
                         <div class="book-cover">How to Win Friends and Influence People</div>
                         <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">How to Win Friends and Influence People</h4>
                         <p style="font-size: 0.9rem; color: #999999;">by Dale Carnegie</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">Teaches practical strategies for building strong relationships, gaining trust, and influencing others through genuine interest, active listening, appreciation, and respectful communication.</p>
                     </div>
-                    
                     <div class="book-card">
                         <div class="book-cover">A Trusted Advisor</div>
                         <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">A Trusted Advisor</h4>
                         <p style="font-size: 0.9rem; color: #999999;">by Robert M. Galford</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">Explores how professionals can build deep client relationships by earning trust through credibility, reliability, empathy, and a focus on the client’s interests over their own.</p>
                     </div>
-                    
                     <div class="book-card">
                         <div class="book-cover">Mindset</div>
                         <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">Mindset</h4>
                         <p style="font-size: 0.9rem; color: #999999;">by Carol S. Dweck</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">The power of believing you can improve. This book shaped my approach to learning and facing challenges in tech.</p>
                     </div>
-
                     <div class="book-card">
                         <div class="book-cover">Moonwalking with Einstein</div>
                         <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">Moonwalking with Einstein</h4>
                         <p style="font-size: 0.9rem; color: #999999;">by Joshua Foer</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem;">Follows journalist Joshua Foer’s journey into the world of competitive memory, revealing how ancient mnemonic techniques can dramatically improve memory and cognitive performance.</p>
                     </div>
-                    
                     <div class="book-card">
                         <div class="book-cover">User Stories Applied</div>
                         <h4 style="color: #e0e0e0; margin-bottom: 0.5rem;">User Stories Applied</h4>
@@ -848,267 +1032,255 @@
                 </div>
             </div>
         </div>
+
         <!-- Individual Blog Post Pages -->
-<div id="post-web-development-2025" class="page">
-    <div class="container">
-        <div class="blog-post-page">
-            <a href="#" data-page="thoughts" class="back-to-thoughts">← Back to Thoughts</a>
-            <article class="blog-post-full">
-                <h1>The Future of Web Development in 2025</h1>
-                <div class="blog-meta">Published on March 15, 2025 • 5 min read</div>
-                
-                <p>As we move deeper into 2025, the landscape of web development continues to evolve at a rapid pace. The integration of artificial intelligence into our development workflows has become not just a luxury, but a necessity for staying competitive in the field.</p>
-                
-                <p>One of the most significant trends I've observed is the rise of AI-assisted coding tools. These aren't just simple autocomplete features anymore—they're sophisticated systems that can understand context, suggest entire code blocks, and even help with debugging complex issues. As developers, we need to learn how to work alongside these tools rather than being replaced by them.</p>
-                
-                <p>Web performance has also taken center stage. With Core Web Vitals becoming increasingly important for SEO rankings, developers can no longer afford to ignore the performance implications of their code. This means rethinking how we approach everything from image optimization to JavaScript bundling.</p>
-                
-                <p>The future belongs to developers who can adapt quickly, embrace new technologies, and maintain a balance between leveraging AI assistance and developing their core programming skills. The key is to use these tools to enhance our capabilities, not replace our critical thinking.</p>
-                
-                <p>Looking ahead, I believe we'll see even more integration between development tools and AI, better performance optimization techniques, and a continued focus on creating accessible, inclusive web experiences. The developers who thrive will be those who stay curious and keep learning.</p>
-            </article>
+        <div id="post-web-development-2025" class="page">
+            <div class="container">
+                <div class="blog-post-page">
+                    <a href="#" data-page="thoughts" class="back-to-thoughts">← Back to Thoughts</a>
+                    <article class="blog-post-full">
+                        <h1>The Future of Web Development in 2025</h1>
+                        <div class="blog-meta">Published on March 15, 2025 • 5 min read</div>
+                        <p>As we move deeper into 2025, the landscape of web development continues to evolve at a rapid pace. The integration of artificial intelligence into our development workflows has become not just a luxury, but a necessity for staying competitive in the field.</p>
+                        <p>One of the most significant trends I've observed is the rise of AI-assisted coding tools. These aren't just simple autocomplete features anymore—they're sophisticated systems that can understand context, suggest entire code blocks, and even help with debugging complex issues. As developers, we need to learn how to work alongside these tools rather than being replaced by them.</p>
+                        <p>Web performance has also taken center stage. With Core Web Vitals becoming increasingly important for SEO rankings, developers can no longer afford to ignore the performance implications of their code. This means rethinking how we approach everything from image optimization to JavaScript bundling.</p>
+                        <p>The future belongs to developers who can adapt quickly, embrace new technologies, and maintain a balance between leveraging AI assistance and developing their core programming skills. The key is to use these tools to enhance our capabilities, not replace our critical thinking.</p>
+                        <p>Looking ahead, I believe we'll see even more integration between development tools and AI, better performance optimization techniques, and a continued focus on creating accessible, inclusive web experiences. The developers who thrive will be those who stay curious and keep learning.</p>
+                    </article>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-<div id="post-accessible-ui" class="page">
-    <div class="container">
-        <div class="blog-post-page">
-            <a href="#" data-page="thoughts" class="back-to-thoughts">← Back to Thoughts</a>
-            <article class="blog-post-full">
-                <h1>Why Remember?</h1>
-                <div class="blog-meta">Published on June 17, 2025 • 2 min read</div>
-           
-  <p>Why remember? We use our memories as a function, a way to accomplish something, like a quiet thread that binds together everything we value. A face recalled, a name recognized: these moments of memory create the web of relationship and connection. For example, the weight of a birthday, or other small detail, remembered is heavier than it seems. It declares, “You matter to me”, without words to explain it.</p>
-
-  <p>Memory was once practiced as a discipline, a form of art painted by scholars, poets and personality. Recalling memories paves the way for identity. Maybe the act of remembrance is akin to sculpting, the sculptor being a mind and the medium a soul.</p>
-
-  <p>We think of memory as something personal, or at least I have frequently, but it’s only fractionaly about us. Memory might be the way to live longer, because “time flies” when days start to blend on account of not being memorable. Therefore, a method for experiencing a long life is to make sure that each day has something memorable. The more associations you can make for each memory, the easier it is to recall (just as a spider with a large web has many paths/options to navigate to his caught prey).</p>
-
-  <p>I believe that everyone owes to themselves the effort to cultivate a strong memory, and that a strong memory brings us closer to others and closer to being human.</p>
-
-
-            </article>
+        <div id="post-accessible-ui" class="page">
+            <div class="container">
+                <div class="blog-post-page">
+                    <a href="#" data-page="thoughts" class="back-to-thoughts">← Back to Thoughts</a>
+                    <article class="blog-post-full">
+                        <h1>Why Remember?</h1>
+                        <div class="blog-meta">Published on June 17, 2025 • 2 min read</div>
+                        <p>Why remember? We use our memories as a function, a way to accomplish something, like a quiet thread that binds together everything we value. A face recalled, a name recognized: these moments of memory create the web of relationship and connection. For example, the weight of a birthday, or other small detail, remembered is heavier than it seems. It declares, “You matter to me”, without words to explain it.</p>
+                        <p>Memory was once practiced as a discipline, a form of art painted by scholars, poets and personality. Recalling memories paves the way for identity. Maybe the act of remembrance is akin to sculpting, the sculptor being a mind and the medium a soul.</p>
+                        <p>We think of memory as something personal, or at least I have frequently, but it’s only fractionaly about us. Memory might be the way to live longer, because “time flies” when days start to blend on account of not being memorable. Therefore, a method for experiencing a long life is to make sure that each day has something memorable. The more associations you can make for each memory, the easier it is to recall (just as a spider with a large web has many paths/options to navigate to his caught prey).</p>
+                        <p>I believe that everyone owes to themselves the effort to cultivate a strong memory, and that a strong memory brings us closer to others and closer to being human.</p>
+                    </article>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-<div id="post-developer-journey" class="page">
-    <div class="container">
-        <div class="blog-post-page">
-            <a href="#" data-page="thoughts" class="back-to-thoughts">← Back to Thoughts</a>
-            <article class="blog-post-full">
-                <h1>My Journey from Beginner to Professional Developer</h1>
-                <div class="blog-meta">Published on January 20, 2025 • 6 min read</div>
-                
-                <p>Three years ago, I wrote my first line of code. It was a simple "Hello, World!" program in Java, and I remember the excitement I felt when those words appeared on my screen. Today, I'm building complex applications with Spring Boot, working with databases, and contributing to meaningful projects. The journey hasn't been easy, but it's been incredibly rewarding.</p>
-                
-                <p>The biggest challenge I faced early on wasn't learning syntax or understanding algorithms—it was overcoming imposter syndrome. Every time I looked at other developers' work, I felt like I was miles behind. I questioned whether I was smart enough, whether I was learning fast enough, whether I belonged in this field at all.</p>
-                
-                <p>What changed everything was shifting my mindset from comparison to growth. Instead of measuring myself against others, I started tracking my own progress. I kept a learning journal, celebrated small wins, and focused on being better than I was yesterday rather than being better than someone else.</p>
-                
-                <p>The technical skills came with time and practice. I learned Java, then Spring Boot, then PostgreSQL. Each new technology built on the last, creating a foundation that grows stronger with each project. But the soft skills—problem-solving, communication, persistence—these turned out to be just as important as the code itself.</p>
-                
-                <p>One of the most valuable lessons I learned was the importance of community. The development community is incredibly welcoming and supportive. Whether it's Stack Overflow, local meetups, or online forums, there are always people willing to help and share their knowledge.</p>
-                
-                <p>To anyone just starting their journey: be patient with yourself, embrace the struggle, and remember that every expert was once a beginner. The path isn't always clear, but if you keep moving forward, you'll be amazed at how far you can go.</p>
-            </article>
+        <div id="post-developer-journey" class="page">
+            <div class="container">
+                <div class="blog-post-page">
+                    <a href="#" data-page="thoughts" class="back-to-thoughts">← Back to Thoughts</a>
+                    <article class="blog-post-full">
+                        <h1>My Journey from Beginner to Professional Developer</h1>
+                        <div class="blog-meta">Published on January 20, 2025 • 6 min read</div>
+                        <p>Three years ago, I wrote my first line of code. It was a simple "Hello, World!" program in Java, and I remember the excitement I felt when those words appeared on my screen. Today, I'm building complex applications with Spring Boot, working with databases, and contributing to meaningful projects. The journey hasn't been easy, but it's been incredibly rewarding.</p>
+                        <p>The biggest challenge I faced early on wasn't learning syntax or understanding algorithms—it was overcoming imposter syndrome. Every time I looked at other developers' work, I felt like I was miles behind. I questioned whether I was smart enough, whether I was learning fast enough, whether I belonged in this field at all.</p>
+                        <p>What changed everything was shifting my mindset from comparison to growth. Instead of measuring myself against others, I started tracking my own progress. I kept a learning journal, celebrated small wins, and focused on being better than I was yesterday rather than being better than someone else.</p>
+                        <p>The technical skills came with time and practice. I learned Java, then Spring Boot, then PostgreSQL. Each new technology built on the last, creating a foundation that grows stronger with each project. But the soft skills—problem-solving, communication, persistence—these turned out to be just as important as the code itself.</p>
+                        <p>One of the most valuable lessons I learned was the importance of community. The development community is incredibly welcoming and supportive. Whether it's Stack Overflow, local meetups, or online forums, there are always people willing to help and share their knowledge.</p>
+                        <p>To anyone just starting their journey: be patient with yourself, embrace the struggle, and remember that every expert was once a beginner. The path isn't always clear, but if you keep moving forward, you'll be amazed at how far you can go.</p>
+                    </article>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
     </main>
 
-   <script defer>
-    // Quote cycling functionality
-    const quotes = [
-        {
-            text: "Winners are not afraid of losing. But losers are. Failure is part of the process of success.",
-            author: "Robert Kiyosaki"
-        },
-        {
-            text: "Our acts can be no wiser than our thoughts. Our thinking can be no wiser than our understanding.",
-            author: "George S. Clason"
-        },
-        {
-            text: "Trust grows when we put the client’s interests first — not just in words, but in action.",
-            author: "Maister, Green, Galford"
-        },
-        {
-            text: "The more we remember, the better we are at processing the world.",
-            author: "Joshua Foer"
-        },
-        {
-            text: "Becoming is better than being",
-            author: "Carol S. Dweck"
-        },
-        {
-            text: "Every action you take is a vote for the type of person you wish to become.",
-            author: "James Clear"
-        },
-        {
-            text: "Opportunity is a haughty goddess who wastes no time with those who are unprepared.",
-            author: "George S. Clason"
-        },
-        {
-            text: "Play long-term games with long-term people. The trick is to be consistent and not give up.",
-            author: "Naval Ravikant"
+    <script defer>
+        // Quote cycling functionality
+        const quotes = [
+            {
+                text: "Winners are not afraid of losing. But losers are. Failure is part of the process of success.",
+                author: "Robert Kiyosaki"
+            },
+            {
+                text: "Our acts can be no wiser than our thoughts. Our thinking can be no wiser than our understanding.",
+                author: "George S. Clason"
+            },
+            {
+                text: "Trust grows when we put the client’s interests first — not just in words, but in action.",
+                author: "Maister, Green, Galford"
+            },
+            {
+                text: "The more we remember, the better we are at processing the world.",
+                author: "Joshua Foer"
+            },
+            {
+                text: "Becoming is better than being",
+                author: "Carol S. Dweck"
+            },
+            {
+                text: "Every action you take is a vote for the type of person you wish to become.",
+                author: "James Clear"
+            },
+            {
+                text: "Opportunity is a haughty goddess who wastes no time with those who are unprepared.",
+                author: "George S. Clason"
+            },
+            {
+                text: "Play long-term games with long-term people. The trick is to be consistent and not give up.",
+                author: "Naval Ravikant"
+            }
+        ];
+
+        let currentQuoteIndex = 0;
+        let quoteInterval;
+
+        function updateQuote(index) {
+            const quoteText = document.getElementById('quote-text');
+            const quoteAuthor = document.getElementById('quote-author');
+            const quoteContainer = document.querySelector('.quote-container');
+            
+            quoteContainer.classList.add('fade-out');
+            
+            setTimeout(() => {
+                quoteText.textContent = quotes[index].text;
+                quoteAuthor.textContent = `— ${quotes[index].author}`;
+                updateDots();
+                quoteContainer.classList.remove('fade-out');
+            }, 250);
         }
-    ];
 
-    let currentQuoteIndex = 0;
-    let quoteInterval;
+        function updateDots() {
+            const dots = document.querySelectorAll('.quote-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentQuoteIndex);
+            });
+        }
 
-    function updateQuote(index) {
-        const quoteText = document.getElementById('quote-text');
-        const quoteAuthor = document.getElementById('quote-author');
-        const quoteContainer = document.querySelector('.quote-container');
-        
-        // Fade out
-        quoteContainer.classList.add('fade-out');
-        
-        setTimeout(() => {
-            // Update content
-            quoteText.textContent = quotes[index].text;
-            quoteAuthor.textContent = `— ${quotes[index].author}`;
+        function createDots() {
+            const dotsContainer = document.getElementById('quoteDots');
+            quotes.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'quote-dot';
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    currentQuoteIndex = index;
+                    updateQuote(currentQuoteIndex);
+                    resetInterval();
+                });
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function nextQuote() {
+            currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+            updateQuote(currentQuoteIndex);
+        }
+
+        function prevQuote() {
+            currentQuoteIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length;
+            updateQuote(currentQuoteIndex);
+        }
+
+        function startQuoteInterval() {
+            quoteInterval = setInterval(nextQuote, 5000);
+        }
+
+        function resetInterval() {
+            clearInterval(quoteInterval);
+            startQuoteInterval();
+        }
+
+        // Hamburger menu functionality
+        function toggleNav() {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createDots();
+            startQuoteInterval();
             
-            // Update dots
-            updateDots();
-            
-            // Fade in
-            quoteContainer.classList.remove('fade-out');
-        }, 250);
-    }
-
-    function updateDots() {
-        const dots = document.querySelectorAll('.quote-dot');
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentQuoteIndex);
-        });
-    }
-
-    function createDots() {
-        const dotsContainer = document.getElementById('quoteDots');
-        quotes.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.className = 'quote-dot';
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => {
-                currentQuoteIndex = index;
-                updateQuote(currentQuoteIndex);
+            document.getElementById('nextQuote').addEventListener('click', () => {
+                nextQuote();
                 resetInterval();
             });
-            dotsContainer.appendChild(dot);
-        });
-    }
-
-    function nextQuote() {
-        currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
-        updateQuote(currentQuoteIndex);
-    }
-
-    function prevQuote() {
-        currentQuoteIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length;
-        updateQuote(currentQuoteIndex);
-    }
-
-    function startQuoteInterval() {
-        quoteInterval = setInterval(nextQuote, 5000);
-    }
-
-    function resetInterval() {
-        clearInterval(quoteInterval);
-        startQuoteInterval();
-    }
-
-    // Initialize quotes
-    document.addEventListener('DOMContentLoaded', () => {
-        createDots();
-        startQuoteInterval();
-        
-        // Add event listeners for navigation buttons
-        document.getElementById('nextQuote').addEventListener('click', () => {
-            nextQuote();
-            resetInterval();
-        });
-        
-        document.getElementById('prevQuote').addEventListener('click', () => {
-            prevQuote();
-            resetInterval();
-        });
-    });
-
-    // Page navigation functionality (your existing code)
-    function showPage(pageId) {
-        // Hide all pages
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(page => page.classList.remove('active'));
-        
-        // Show selected page
-        const targetPage = document.getElementById(pageId);
-        if (targetPage) {
-            targetPage.classList.add('active');
-        }
-        
-        // Update navigation only for main nav pages
-        const mainPages = ['home', 'skills', 'thoughts', 'about', 'books'];
-        if (mainPages.includes(pageId)) {
-            const navLinks = document.querySelectorAll('.nav-links a');
-            navLinks.forEach(link => link.classList.remove('active'));
             
-            const clickedLink = document.querySelector(`[data-page="${pageId}"]`);
-            if (clickedLink) {
-                clickedLink.classList.add('active');
-            }
-        }
-        
-        // Smooth scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+            document.getElementById('prevQuote').addEventListener('click', () => {
+                prevQuote();
+                resetInterval();
+            });
 
-    // Attach event listeners to navigation links
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const pageId = link.getAttribute('data-page');
-            showPage(pageId);
+            document.querySelector('.hamburger').addEventListener('click', toggleNav);
+
+            // Close nav when a link is clicked
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.querySelector('.hamburger').classList.remove('active');
+                    document.querySelector('.nav-links').classList.remove('active');
+                });
+            });
         });
-    });
 
-    // Attach event listener to the "Get to Know Me" button
-    document.querySelector('.cta-button').addEventListener('click', (e) => {
-        e.preventDefault();
-        showPage('about');
-    });
-
-    // Attach event listeners to blog posts
-    document.addEventListener('click', (e) => {
-        const blogPost = e.target.closest('.blog-post');
-        if (blogPost) {
-            const title = blogPost.querySelector('h3').textContent;
-            let pageId;
+        // Page navigation functionality
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
             
-            // Map blog post titles to page IDs
-            if (title.includes('Future of Web Development')) {
-                pageId = 'post-web-development-2025';
-            } else if (title.includes('Accessible User Interfaces')) {
-                pageId = 'post-accessible-ui';
-            } else if (title.includes('Journey from Beginner')) {
-                pageId = 'post-developer-journey';
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
             }
             
-            if (pageId) {
+            const mainPages = ['home', 'skills', 'thoughts', 'about', 'books'];
+            if (mainPages.includes(pageId)) {
+                const navLinks = document.querySelectorAll('.nav-links a');
+                navLinks.forEach(link => link.classList.remove('active'));
+                
+                const clickedLink = document.querySelector(`[data-page="${pageId}"]`);
+                if (clickedLink) {
+                    clickedLink.classList.add('active');
+                }
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
                 showPage(pageId);
-            }
-        }
-    });
+            });
+        });
 
-    // Attach event listeners to back to thoughts buttons
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('back-to-thoughts')) {
+        document.querySelector('.cta-button').addEventListener('click', (e) => {
             e.preventDefault();
-            showPage('thoughts');
-        }
-    });
-</script>
+            showPage('about');
+        });
+
+        document.addEventListener('click', (e) => {
+            const blogPost = e.target.closest('.blog-post');
+            if (blogPost) {
+                const title = blogPost.querySelector('h3').textContent;
+                let pageId;
+                
+                if (title.includes('Future of Web Development')) {
+                    pageId = 'post-web-development-2025';
+                } else if (title.includes('Accessible User Interfaces')) {
+                    pageId = 'post-accessible-ui';
+                } else if (title.includes('Journey from Beginner')) {
+                    pageId = 'post-developer-journey';
+                } else if (title.includes('Why Remember')) {
+                    pageId = 'post-accessible-ui';
+                }
+                
+                if (pageId) {
+                    showPage(pageId);
+                }
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('back-to-thoughts')) {
+                e.preventDefault();
+                showPage('thoughts');
+            }
+        });
+    </script>
 </body>
 </html>
